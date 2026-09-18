@@ -8,6 +8,11 @@
   overflow: hidden;
   background:
     radial-gradient(
+      ellipse 40% 35% at 85% 8%,
+      color-mix(in srgb, var(--color-plum-soft) 38%, transparent) 0%,
+      transparent 48%
+    ),
+    radial-gradient(
       ellipse 70% 55% at 50% 62%,
       color-mix(in srgb, var(--color-bordeaux) 55%, transparent) 0%,
       transparent 70%

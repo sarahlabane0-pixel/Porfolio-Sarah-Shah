@@ -1,8 +1,9 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { Fragment, type CSSProperties } from "react";
 import { travelChapters, type TravelChapter } from "@/content/travels";
 import { PlaceholderImage } from "@/components/shared/PlaceholderImage";
+import { SectionBridge } from "@/components/shared/SectionBridge";
 import { useReveal } from "@/lib/useReveal";
 import {
   ZelligeOrnament,
@@ -173,11 +174,13 @@ export function Travels() {
         </div>
       </div>
 
+      <SectionBridge from="#0c0a0b" to="#5a2a14" />
       {nonAlgeria.slice(0, 1).map((chapter, i) => (
         <Chapter key={chapter.id} chapter={chapter} index={i} />
       ))}
 
       {/* Algeria — three atmospheres inside one chapter, not one generic destination */}
+      <SectionBridge from="#2b1209" to="#1c2430" />
       <AlgeriaBeat
         kicker="Algérie — Alger"
         title="Alger"
@@ -185,6 +188,7 @@ export function Travels() {
         theme={THEMES.algeria}
         ornament={<AlgiersOrnament />}
       />
+      <SectionBridge from="#0c0a0b" to="#143244" />
       <AlgeriaBeat
         kicker="Algérie — Oran"
         title="Oran"
@@ -192,6 +196,7 @@ export function Travels() {
         theme={{ a: "#143244", b: "#0c0a0b", accent: "#e3b566" }}
         ornament={<div className={ornamentStyles.glare} aria-hidden="true" />}
       />
+      <SectionBridge from="#0c0a0b" to="#4a3423" />
       <AlgeriaBeat
         kicker="Algérie — Le désert"
         title="Le désert"
@@ -209,8 +214,14 @@ export function Travels() {
         </p>
       )}
 
-      {nonAlgeria.slice(1).map((chapter, i) => (
-        <Chapter key={chapter.id} chapter={chapter} index={i + 1} />
+      {nonAlgeria.slice(1).map((chapter, i, arr) => (
+        <Fragment key={chapter.id}>
+          <SectionBridge
+            from={i === 0 ? "#0c0a0b" : THEMES[arr[i - 1].theme].b}
+            to={THEMES[chapter.theme].a}
+          />
+          <Chapter chapter={chapter} index={i + 1} />
+        </Fragment>
       ))}
     </section>
   );

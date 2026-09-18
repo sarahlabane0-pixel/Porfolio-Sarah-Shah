@@ -4,7 +4,22 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: var(--color-bg);
+  /* background-color is crossfaded black -> bordeaux-deep by GSAP in
+     Recit.tsx as the scroll-scrub progresses; these two static gradient
+     blooms sit on top of it (background-image always paints above
+     background-color) so the transition never reads as one flat wash. */
+  background-color: var(--color-bg);
+  background-image:
+    radial-gradient(
+      ellipse 45% 40% at 92% 100%,
+      color-mix(in srgb, var(--color-wine) 35%, transparent) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 40% 35% at 4% 0%,
+      color-mix(in srgb, var(--color-plum-soft) 30%, transparent) 0%,
+      transparent 45%
+    );
 }
 
 .pinTarget {

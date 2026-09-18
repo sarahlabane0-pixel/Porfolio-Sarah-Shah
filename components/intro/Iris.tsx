@@ -24,7 +24,14 @@ export function Iris({ onComplete }: { onComplete: () => void }) {
     document.documentElement.style.overflow = "hidden";
     lenisRef.current?.stop();
 
+    // Marking the intro "seen" only happens here, on genuine completion —
+    // never right after building the timeline. Dev-mode StrictMode mounts
+    // this effect twice (mount, cleanup, mount again); if the flag were set
+    // eagerly at mount, the first throwaway pass would set it before being
+    // torn down, and the second (real) pass would then wrongly read it as
+    // already seen and skip straight to the fast fade.
     const release = () => {
+      sessionStorage.setItem(SEEN_KEY, "1");
       document.documentElement.style.overflow = "";
       lenisRef.current?.start();
       onComplete();
@@ -42,7 +49,6 @@ export function Iris({ onComplete }: { onComplete: () => void }) {
         },
       });
       tl.to(overlayRef.current, { opacity: 0, duration: 0.5, ease: "power2.out" });
-      sessionStorage.setItem(SEEN_KEY, "1");
       return () => {
         tl.kill();
       };
@@ -56,30 +62,28 @@ export function Iris({ onComplete }: { onComplete: () => void }) {
       },
     });
 
-    gsap.set(clipRef.current, { clipPath: "circle(0vmax at 50% 47%)" });
-    gsap.set(imageRef.current, { filter: "blur(18px)" });
+    gsap.set(clipRef.current, { clipPath: "circle(0vmax at 50% 50%)" });
+    gsap.set(imageRef.current, { filter: "blur(10px)" });
     gsap.set(skipRef.current, { opacity: 0 });
 
     tl.to(bgFadeRef.current, { opacity: 1, duration: 1.1 }, 0)
       .to(
         clipRef.current,
-        { clipPath: "circle(3.2vmax at 50% 47%)", duration: 1, ease: "power3.out" },
+        { clipPath: "circle(4.5vmax at 50% 50%)", duration: 1, ease: "power3.out" },
         0.1,
       )
-      .to(imageRef.current, { filter: "blur(5px)", duration: 1 }, 0.1)
+      .to(imageRef.current, { filter: "blur(1.5px)", duration: 0.9 }, 0.1)
       .to(skipRef.current, { opacity: 1, duration: 0.6 }, 0.6)
-      .to({}, { duration: 0.45 })
+      .to({}, { duration: 0.5 })
       .to(
         clipRef.current,
-        { clipPath: "circle(130vmax at 50% 47%)", duration: 1.7, ease: "power4.inOut" },
+        { clipPath: "circle(130vmax at 50% 50%)", duration: 1.7, ease: "power4.inOut" },
         ">",
       )
       .to(imageRef.current, { filter: "blur(0px)", duration: 1.3, ease: "power2.out" }, "<")
       .to({}, { duration: 0.35 })
       .to(skipRef.current, { opacity: 0, duration: 0.3 }, "<")
       .to(overlayRef.current, { opacity: 0, duration: 0.85, ease: "power2.inOut" });
-
-    sessionStorage.setItem(SEEN_KEY, "1");
 
     return () => {
       tl.kill();
@@ -88,6 +92,7 @@ export function Iris({ onComplete }: { onComplete: () => void }) {
   }, []);
 
   const skip = () => {
+    sessionStorage.setItem(SEEN_KEY, "1");
     document.documentElement.style.overflow = "";
     lenisRef.current?.start();
     gsap.killTweensOf([overlayRef.current, clipRef.current, imageRef.current]);
@@ -108,15 +113,17 @@ export function Iris({ onComplete }: { onComplete: () => void }) {
     <div ref={overlayRef} className={styles.overlay} role="presentation">
       <div ref={bgFadeRef} className={styles.bgFade} />
       <div ref={clipRef} className={styles.imageClip}>
-        <Image
-          ref={imageRef}
-          src="/assets/portraits/sarah-iris.jpg"
-          alt={iris.alt}
-          fill
-          priority
-          sizes="100vw"
-          className={styles.image}
-        />
+        <div className={styles.imageFrame}>
+          <Image
+            ref={imageRef}
+            src="/assets/portraits/sarah-iris.jpg"
+            alt={iris.alt}
+            fill
+            priority
+            sizes="720px"
+            className={styles.image}
+          />
+        </div>
       </div>
       <button ref={skipRef} type="button" className={styles.skip} onClick={skip}>
         Passer l&rsquo;introduction

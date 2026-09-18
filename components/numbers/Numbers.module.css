@@ -1,6 +1,13 @@
 .section {
   position: relative;
-  background: var(--color-black);
+  background: linear-gradient(
+    180deg,
+    var(--color-black) 0%,
+    #1c0a12 18%,
+    var(--color-bordeaux-deep) 42%,
+    var(--color-plum) 68%,
+    var(--color-black) 100%
+  );
 }
 
 .stat {

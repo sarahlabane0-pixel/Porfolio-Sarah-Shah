@@ -17,12 +17,22 @@ or replaced with stock photography. Updated as Sarah sends more source files.
 
 ### `public/assets/portraits/sarah-iris.jpg`
 - Section: Iris opening (`components/intro/Iris.tsx`)
-- Source: extracted from `CV - Shah Sarah.pdf`, page 1.
-- Current resolution: 737×1105.
-- Recommended: usable at the current constrained circle size, but will
-  soften on very large desktop displays where the aperture opens past
-  roughly 1200px wide. A higher-resolution version of this portrait (or an
-  alternative face-forward shot at 2000px+) would remove that ceiling.
+- Source: extracted from `CV - Shah Sarah.pdf`, page 1, re-cropped to a
+  tight 400×400 headshot centred precisely on her eyes (the original crop
+  was centred on her neck/necklace, which meant the small starting circle
+  revealed hair and jewellery instead of her face — fixed).
+- Current resolution: 400×400.
+- Recommended: reads clearly at the small starting-circle size and through
+  most of the reveal; a higher-resolution face-forward shot (1200px+)
+  would remove the last bit of softness at full-screen expansion, though
+  that moment is already brief and crossfades into the hero.
+- Also fixed: a dev-mode-only bug where React's Strict Mode double-mount
+  caused the "seen this intro" flag to be set before the real animation
+  ever played, so every local `npm run dev` preview (including the one
+  sent earlier) was skipping straight to a half-second fade instead of
+  the actual iris reveal. This is why it looked barely visible — it was
+  never really playing. Production builds were never affected, but this
+  is now fixed for dev too.
 
 ## Missing — blocks later chapters
 
@@ -63,12 +73,19 @@ suits their resolution — flagged here only so nobody scales them up later
 without checking.
 
 - `public/assets/adecco/kickoff-01.jpg` (615×346), `kickoff-02.jpg`
-  (410×231) — Adecco Group kickoff/auditorium, used in Professional and as
-  the "Projets professionnels" cover in Mes Mondes.
+  (410×231) — Adecco Group kickoff/auditorium, used in Professional at a
+  bounded max-width (clamp caps around 420px/300px), so these are actually
+  downscaled there, not stretched.
 - `public/assets/ketil/studio-01.jpg` (605×807), `studio-02.jpg` (857×1143)
   — Ketil Media workspace and "#KTAC Studio" sign.
 - `public/assets/choiseul/venue-01.jpg` (908×1210), `accueil-01.jpg`
   (480×640) — Institut Choiseul theatre interior and guest check-in.
+  `venue-01.jpg` is now also the "Projets professionnels" cover in Mes
+  Mondes (swapped from the smaller Adecco crop, which was being stretched
+  across the full expanded panel — up to ~2x upscale — and looked
+  genuinely blurry there). Every Mes Mondes cover photo also gets a grain
+  + vignette treatment now so the look is consistent regardless of source
+  resolution.
 - `public/assets/disney/pier-01.jpg` (442×589), `parade-01.jpg` (600×401)
   — Disneyland Paris, both under 600px on the long edge, will look soft
   above small/medium display size.
