@@ -1,0 +1,149 @@
+.section {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      ellipse 70% 55% at 50% 62%,
+      color-mix(in srgb, var(--color-bordeaux) 55%, transparent) 0%,
+      transparent 70%
+    ),
+    var(--color-bg);
+  padding-block: clamp(6rem, 14vh, 9rem);
+}
+
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.word {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 480;
+  font-size: var(--size-hero);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  text-transform: uppercase;
+  color: var(--color-ivory);
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.word--first {
+  position: relative;
+  z-index: 1;
+  margin-bottom: clamp(-5.5rem, -8vw, -1.75rem);
+  font-style: italic;
+  font-variation-settings: "SOFT" 60, "WONK" 1;
+}
+
+.word--last {
+  position: relative;
+  z-index: 3;
+  margin-top: clamp(-5.5rem, -8vw, -1.75rem);
+  color: var(--color-blush);
+}
+
+.portraitWrap {
+  position: relative;
+  z-index: 2;
+  height: clamp(42vh, 8vw + 40vh, 78vh);
+  width: auto;
+  opacity: 0;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 2rem 3rem rgba(0, 0, 0, 0.55));
+}
+
+.portrait {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+.meta {
+  position: absolute;
+  left: var(--gutter);
+  bottom: clamp(2rem, 6vh, 3.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-fg-dim);
+  opacity: 0;
+}
+
+.meta span:first-child {
+  color: var(--color-ivory);
+}
+
+.scrollCue {
+  position: absolute;
+  right: var(--gutter);
+  bottom: clamp(2rem, 6vh, 3.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+}
+
+.scrollLabel {
+  writing-mode: vertical-rl;
+  font-family: var(--font-sans);
+  font-size: var(--size-label);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-fg-dim);
+}
+
+.scrollTrack {
+  position: relative;
+  width: 1px;
+  height: 56px;
+  background: var(--color-line);
+}
+
+.scrollDot {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 5px;
+  height: 5px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: var(--color-blush);
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding-block: clamp(5rem, 12vh, 7rem);
+  }
+  .meta {
+    flex-direction: row;
+    gap: 0.6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 1.5rem;
+  }
+  .meta span:not(:first-child)::before {
+    content: "·";
+    margin-right: 0.6rem;
+    opacity: 0.5;
+  }
+  .scrollCue {
+    display: none;
+  }
+}

@@ -1,0 +1,65 @@
+/* Design tokens — Sarah Shah portfolio
+   Palette: deep bordeaux / wine / plum against near-black and pale editorial neutrals.
+   Kept as CSS custom properties so every scene draws from the same system. */
+
+:root {
+  /* --- Color --- */
+  --color-black: #0c0a0b;
+  --color-bordeaux-deep: #2b0710;
+  --color-bordeaux: #4a0e1f;
+  --color-wine: #7a1128;
+  --color-plum: #3d1226;
+  --color-plum-soft: #5a2138;
+  --color-blush: #f2e1de;
+  --color-cream: #f5efe4;
+  --color-ivory: #faf7f1;
+  --color-gold-dim: #a9895f;
+
+  --color-bg: var(--color-black);
+  --color-bg-alt: var(--color-bordeaux-deep);
+  --color-fg: var(--color-ivory);
+  --color-fg-dim: color-mix(in srgb, var(--color-ivory) 55%, transparent);
+  --color-accent: var(--color-wine);
+  --color-line: color-mix(in srgb, var(--color-ivory) 18%, transparent);
+
+  /* --- Type --- */
+  --font-display: var(--font-fraunces), "Fraunces", "Times New Roman", serif;
+  --font-sans: var(--font-instrument), "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+
+  --size-hero: clamp(4.5rem, 15vw, 13rem);
+  --size-huge: clamp(3rem, 9vw, 7.5rem);
+  --size-xl: clamp(2rem, 5vw, 4rem);
+  --size-lg: clamp(1.4rem, 2.6vw, 2rem);
+  --size-md: clamp(1.05rem, 1.4vw, 1.25rem);
+  --size-body: clamp(1rem, 1.1vw, 1.125rem);
+  --size-sm: clamp(0.78rem, 0.9vw, 0.9rem);
+  --size-label: 0.72rem;
+
+  --lh-tight: 0.92;
+  --lh-snug: 1.1;
+  --lh-body: 1.6;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.14em;
+  --tracking-wider: 0.28em;
+
+  /* --- Motion --- */
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-sharp: cubic-bezier(0.7, 0, 0.2, 1);
+  --dur-fast: 0.4s;
+  --dur-med: 0.9s;
+  --dur-slow: 1.6s;
+
+  /* --- Layout --- */
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --nav-height: clamp(4.5rem, 8vh, 6rem);
+  --grain-opacity: 0.05;
+}
+
+:root[data-theme="paper"] {
+  --color-bg: var(--color-cream);
+  --color-fg: var(--color-black);
+  --color-accent: var(--color-bordeaux);
+}

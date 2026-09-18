@@ -1,0 +1,62 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: var(--color-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bgFade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 45%,
+    var(--color-bordeaux-deep) 0%,
+    var(--color-black) 78%
+  );
+  opacity: 0;
+}
+
+.imageClip {
+  position: absolute;
+  inset: 0;
+  clip-path: circle(0vmax at 50% 47%);
+  will-change: clip-path;
+}
+
+.imageClip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-blush) 30%, transparent);
+  pointer-events: none;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+  transform: scale(1.08);
+}
+
+.skip {
+  position: absolute;
+  right: var(--gutter);
+  bottom: clamp(1.5rem, 4vh, 2.5rem);
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-ivory) 65%, transparent);
+  opacity: 0;
+  padding: 0.6rem 0.2rem;
+}
+
+.skip:hover {
+  color: var(--color-ivory);
+}
