@@ -1,0 +1,160 @@
+.section {
+  position: relative;
+  background: var(--color-black);
+}
+
+.intro {
+  min-height: 46vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem var(--gutter);
+}
+
+.kicker {
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-gold-dim);
+  margin: 0 0 0.75rem;
+}
+
+.introTitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--size-huge);
+  color: var(--color-ivory);
+  margin: 0 0 1rem;
+}
+
+.introText {
+  max-width: 48ch;
+  color: var(--color-fg-dim);
+  font-size: var(--size-md);
+}
+
+/* ---- chapter shell, shared by every destination ---- */
+
+.chapter {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: clamp(6rem, 13vh, 8rem) var(--gutter) clamp(4rem, 9vh, 6rem);
+  background: linear-gradient(165deg, var(--chapter-bg-a) 0%, var(--chapter-bg-b) 100%);
+  color: var(--chapter-fg, var(--color-ivory));
+}
+
+.chapterInner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+  width: 100%;
+}
+
+.chapter[data-align="text-right"] .chapterInner {
+  direction: rtl;
+}
+.chapter[data-align="text-right"] .chapterInner > * {
+  direction: ltr;
+}
+
+.destKicker {
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--chapter-accent);
+  margin: 0 0 0.75rem;
+}
+
+.destName {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(3.2rem, 8vw, 6.5rem);
+  line-height: 0.95;
+  margin: 0 0 1.25rem;
+}
+
+.narrative p {
+  max-width: 46ch;
+  font-size: var(--size-body);
+  opacity: 0.86;
+  margin: 0 0 1rem;
+}
+
+.chips {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+}
+
+.chip {
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--chapter-fg, var(--color-ivory)) 30%, transparent);
+  opacity: 0.85;
+}
+
+.chip[data-kind="reference"] {
+  opacity: 0.55;
+  border-style: dashed;
+}
+
+.chipsLabel {
+  display: block;
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: var(--size-label);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin: 0.9rem 0 -0.25rem;
+}
+
+.placeholderNote {
+  margin-top: 1.25rem;
+  font-size: var(--size-sm);
+  font-style: italic;
+  opacity: 0.6;
+}
+
+.media {
+  position: relative;
+  height: clamp(320px, 56vh, 620px);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.ornament {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+@media (max-width: 860px) {
+  .chapterInner {
+    grid-template-columns: 1fr;
+  }
+  .chapter[data-align="text-right"] .chapterInner {
+    direction: ltr;
+  }
+  .media {
+    height: 42vh;
+    order: -1;
+  }
+}

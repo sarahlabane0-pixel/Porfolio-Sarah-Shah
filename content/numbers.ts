@@ -6,6 +6,7 @@ export type StatEntry = {
   value: string;
   label: string;
   verified: boolean;
+  tools?: string[];
 };
 
 export const stats: StatEntry[] = [
@@ -16,8 +17,9 @@ export const stats: StatEntry[] = [
   },
   {
     value: "3",
-    label: "outils de reporting utilisés au quotidien — Sprout Social, Excel, Meltwater",
+    label: "outils de reporting utilisés au quotidien",
     verified: true,
+    tools: ["Sprout Social", "Excel", "Meltwater"],
   },
   { value: "XX", label: "événements accompagnés", verified: false },
   { value: "XX", label: "projets menés", verified: false },

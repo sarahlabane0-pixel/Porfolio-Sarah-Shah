@@ -1,0 +1,225 @@
+.section {
+  position: relative;
+  background: var(--color-black);
+}
+
+/* ---- Niemeyer ---- */
+
+.niemeyer {
+  position: relative;
+  min-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: clamp(6rem, 13vh, 8rem) var(--gutter);
+  background: radial-gradient(ellipse 90% 70% at 30% 20%, #2b0710 0%, var(--color-black) 65%);
+}
+
+.arc {
+  position: absolute;
+  top: -20%;
+  right: -15%;
+  width: 70vmin;
+  height: 70vmin;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--color-blush) 18%, transparent);
+}
+
+.arc::after {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--color-blush) 10%, transparent);
+}
+
+.niemeyerGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+  width: 100%;
+}
+
+.kicker {
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-gold-dim);
+  margin: 0 0 0.75rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--size-huge);
+  line-height: 0.95;
+  color: var(--color-ivory);
+  margin: 0 0 1.25rem;
+}
+
+.paragraph {
+  max-width: 46ch;
+  color: var(--color-fg-dim);
+  font-size: var(--size-body);
+  margin: 0 0 1rem;
+}
+
+.note {
+  font-size: var(--size-sm);
+  font-style: italic;
+  opacity: 0.6;
+  margin-top: 1rem;
+}
+
+.blobs {
+  position: relative;
+  height: clamp(340px, 58vh, 640px);
+}
+
+.blob {
+  position: absolute;
+  overflow: hidden;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.55);
+}
+
+.blob:nth-child(1) {
+  width: 62%;
+  height: 68%;
+  left: 4%;
+  top: 4%;
+  border-radius: 62% 38% 55% 45% / 50% 45% 55% 50%;
+}
+
+.blob:nth-child(2) {
+  width: 46%;
+  height: 44%;
+  right: 2%;
+  bottom: 2%;
+  border-radius: 40% 60% 45% 55% / 55% 40% 60% 45%;
+}
+
+/* ---- Curiosity / galleries ---- */
+
+.curiosity {
+  position: relative;
+  min-height: 100dvh;
+  padding: clamp(6rem, 13vh, 8rem) var(--gutter);
+  background: var(--color-bordeaux-deep);
+}
+
+.curiosityHead {
+  max-width: 60ch;
+  margin: 0 0 clamp(3rem, 7vh, 4rem);
+}
+
+.spotlight {
+  position: fixed;
+  width: 420px;
+  height: 420px;
+  margin: -210px 0 0 -210px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-blush) 10%, transparent) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.canvas {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+}
+
+.tile {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  filter: grayscale(0.6) brightness(0.6);
+  transform: scale(0.97);
+  transition: filter 0.5s var(--ease-soft), transform 0.5s var(--ease-soft);
+}
+
+.tile:hover,
+.tile:focus-visible {
+  filter: grayscale(0) brightness(0.95);
+  transform: scale(1);
+}
+
+.tile:nth-child(1) {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.tile:nth-child(2) {
+  grid-column: span 2;
+  margin-top: 2rem;
+}
+.tile:nth-child(3) {
+  grid-column: span 2;
+}
+.tile:nth-child(4) {
+  grid-column: span 2;
+  margin-top: -1.5rem;
+}
+.tile:nth-child(5) {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.tile:nth-child(6) {
+  grid-column: span 2;
+  margin-top: 1.5rem;
+}
+
+.notes {
+  position: relative;
+  z-index: 1;
+  margin-top: clamp(3rem, 7vh, 4rem);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.noteTitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--color-ivory);
+  margin: 0 0 0.5rem;
+}
+
+.noteText {
+  font-size: var(--size-sm);
+  color: var(--color-fg-dim);
+  max-width: 42ch;
+}
+
+@media (max-width: 780px) {
+  .niemeyerGrid {
+    grid-template-columns: 1fr;
+  }
+  .blobs {
+    order: -1;
+    height: 42vh;
+  }
+  .canvas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .tile:nth-child(n) {
+    grid-column: auto;
+    grid-row: auto;
+    margin-top: 0;
+  }
+  .spotlight {
+    display: none;
+  }
+}

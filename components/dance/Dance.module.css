@@ -1,0 +1,85 @@
+.section {
+  position: relative;
+  min-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(6rem, 13vh, 8rem) var(--gutter);
+  background: radial-gradient(ellipse 75% 60% at 50% 40%, var(--color-bordeaux) 0%, var(--color-black) 72%);
+}
+
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  will-change: transform;
+}
+
+.word {
+  display: block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 480;
+  font-size: clamp(3.5rem, 12vw, 9.5rem);
+  line-height: 0.88;
+  letter-spacing: var(--tracking-tight);
+  text-transform: uppercase;
+  color: var(--color-ivory);
+  text-align: center;
+}
+
+.word--first {
+  position: relative;
+  z-index: 1;
+  margin-bottom: clamp(-3rem, -6vw, -1rem);
+  opacity: 0.85;
+}
+
+.word--last {
+  position: relative;
+  z-index: 3;
+  margin-top: clamp(-3rem, -6vw, -1rem);
+  color: var(--color-blush);
+}
+
+.photoWrap {
+  position: relative;
+  z-index: 2;
+  width: clamp(220px, 30vw, 420px);
+  height: clamp(280px, 38vh, 520px);
+  -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 45%, black 45%, transparent 78%);
+  mask-image: radial-gradient(ellipse 60% 55% at 50% 45%, black 45%, transparent 78%);
+}
+
+.photoWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.text {
+  position: relative;
+  z-index: 4;
+  margin-top: clamp(3rem, 7vh, 4.5rem);
+  max-width: 52ch;
+  text-align: center;
+}
+
+.kicker {
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-gold-dim);
+  margin: 0 0 1rem;
+}
+
+.text p {
+  color: var(--color-fg-dim);
+  font-size: var(--size-body);
+  margin: 0 0 0.9rem;
+}

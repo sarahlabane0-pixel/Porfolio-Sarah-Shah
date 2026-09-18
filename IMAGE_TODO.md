@@ -54,19 +54,27 @@ check, alpha-key where relevant) and update this list.
   Invalides, "Le monde comme il va" at the Bourse de Commerce / Collection
   Pinault) but no personal photography yet.
 
-## Usable but modest resolution (fine for smaller/atmospheric use, not full-bleed hero scale)
+## Now in use — modest resolution, fine at current scale
 
-- Dance/movement photos (silhouette running/leaping shot, arms-raised
-  shot): all under ~750px on the long edge.
-- Adecco professional photos (kickoff/auditorium crowd shot, group award
-  photo, colleague selfie, stage presentation): ~700–900px wide.
-- Ketil Media (workspace interior, "#KTAC Studio" neon sign, outdoor
-  team/event photo): usable, moderate resolution.
-- Choiseul Institut (conference hall, red-velvet theatre interior,
-  check-in/book-signing moment, interview setup): best atmosphere of the
-  professional set, moderate resolution.
-- Disney (real sunset castle photo, real parade/show photo): both under
-  600px on the long edge, will look soft above small/medium display size.
+These are real photos (not placeholders), used in `components/professional/`,
+`components/mondes/` and `components/dance/`. All are displayed at
+small/medium scale (case-study spread photos, not full-bleed hero), which
+suits their resolution — flagged here only so nobody scales them up later
+without checking.
+
+- `public/assets/adecco/kickoff-01.jpg` (615×346), `kickoff-02.jpg`
+  (410×231) — Adecco Group kickoff/auditorium, used in Professional and as
+  the "Projets professionnels" cover in Mes Mondes.
+- `public/assets/ketil/studio-01.jpg` (605×807), `studio-02.jpg` (857×1143)
+  — Ketil Media workspace and "#KTAC Studio" sign.
+- `public/assets/choiseul/venue-01.jpg` (908×1210), `accueil-01.jpg`
+  (480×640) — Institut Choiseul theatre interior and guest check-in.
+- `public/assets/disney/pier-01.jpg` (442×589), `parade-01.jpg` (600×401)
+  — Disneyland Paris, both under 600px on the long edge, will look soft
+  above small/medium display size.
+- `public/assets/danse/mouvement-01.jpg` (548×731), `mouvement-02.jpg`
+  (451×557) — used in the Danse section (mouvement-01) and Mes Mondes
+  cover (mouvement-01); mouvement-02 extracted but not yet placed.
 
 ## Explicitly avoided
 

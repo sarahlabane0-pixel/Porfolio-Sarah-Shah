@@ -1,0 +1,122 @@
+.section {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(6rem, 13vh, 8rem) var(--gutter);
+  background: var(--color-black);
+  overflow: hidden;
+}
+
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 0%,
+    color-mix(in srgb, var(--color-bordeaux) 55%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  width: min(760px, 100%);
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(2rem, 6vw, 4rem);
+  background: var(--color-cream);
+  color: var(--color-black);
+  text-align: center;
+  -webkit-mask-image: radial-gradient(circle 7px at 0 0, transparent 7px, black 7.5px),
+    radial-gradient(circle 7px at 100% 0, transparent 7px, black 7.5px),
+    radial-gradient(circle 7px at 0 100%, transparent 7px, black 7.5px),
+    radial-gradient(circle 7px at 100% 100%, transparent 7px, black 7.5px);
+  mask-image: radial-gradient(circle 7px at 0 0, transparent 7px, black 7.5px),
+    radial-gradient(circle 7px at 100% 0, transparent 7px, black 7.5px),
+    radial-gradient(circle 7px at 0 100%, transparent 7px, black 7.5px),
+    radial-gradient(circle 7px at 100% 100%, transparent 7px, black 7.5px);
+}
+
+.seal {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto 1.75rem;
+  border-radius: 50%;
+  border: 1px solid var(--color-bordeaux);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--color-bordeaux);
+}
+
+.kicker {
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-wine);
+  margin: 0 0 1rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  line-height: 1.02;
+  margin: 0 0 1.25rem;
+}
+
+.subtitle {
+  max-width: 44ch;
+  margin: 0 auto clamp(2rem, 5vh, 3rem);
+  color: color-mix(in srgb, var(--color-black) 65%, transparent);
+  font-size: var(--size-md);
+}
+
+.divider {
+  width: 3rem;
+  height: 1px;
+  margin: 0 auto 2rem;
+  background: color-mix(in srgb, var(--color-black) 25%, transparent);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.link {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  color: var(--color-bordeaux);
+  padding: 0.2rem 0.4rem;
+}
+
+.location {
+  margin-top: 1.5rem;
+  font-family: var(--font-sans);
+  font-size: var(--size-sm);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-black) 55%, transparent);
+}
+
+.footerRow {
+  margin-top: clamp(3rem, 7vh, 4rem);
+  padding-top: 1.5rem;
+  border-top: 1px dashed color-mix(in srgb, var(--color-black) 20%, transparent);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-black) 45%, transparent);
+}
