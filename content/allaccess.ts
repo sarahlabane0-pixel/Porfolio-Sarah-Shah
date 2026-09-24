@@ -126,6 +126,14 @@ export const spaces = {
   galleryKicker: "Espace Niemeyer — Paris",
   galleryTitle: ["Le lieu,", "en vrai."],
   missing: ["vue frontale", "le dôme", "l'intérieur"],
+  sheetLabel: "Élévation — Espace Niemeyer — Paris",
+  architect: "Architecture — Oscar Niemeyer",
+  // Cartel notes, keyed by photo slug — Sarah's own words (content/places.ts).
+  notes: {
+    foyer: "Le contraste entre le béton, le mobilier, les volumes et les couleurs.",
+  } as Record<string, string>,
+  // The photo the 3D dome opens onto; every other photo goes to the exhibition.
+  arrivalSlug: "coupole",
   gallery: [
     { key: "aura", title: "AURA Invalides", noteIndex: 0 },
     { key: "bourse", title: "Bourse de Commerce", noteIndex: 1 },

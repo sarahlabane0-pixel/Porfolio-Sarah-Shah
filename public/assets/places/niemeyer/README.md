@@ -1,12 +1,11 @@
-# Espace Niemeyer — drop the photographs here
+# Espace Niemeyer — photographs
 
 Any .jpg / .jpeg / .png / .webp / .avif file in this folder is picked up at
-build time (sorted by file name) and shown in the Spaces chapter:
+build time (sorted by file name) and shown in the Spaces chapter, each one
+exactly once:
 
-- the FIRST file becomes the photograph the 3D lines extrude from — ideally a
-  frontal / elevation view, landscape, ≥ 2400 px wide;
-- every file appears, large, in the "Espace Niemeyer" gallery after the 3D
-  moment.
+- the file whose name contains `coupole` is where the 3D journey arrives
+  (the dome opens onto it, "I COLLECT SPACES." over it);
+- every other file hangs in the "Le lieu, en vrai." exhibition, with a cartel.
 
-Suggested names: niemeyer-01-facade.jpg, niemeyer-02-dome.jpg,
-niemeyer-03-interior.jpg, …  Nothing else needs to change.
+Captions come from the name: niemeyer-01-foyer → "Le foyer".

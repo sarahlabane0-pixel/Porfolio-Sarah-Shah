@@ -18,10 +18,11 @@ export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
   const root = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const trackRef = useRef<HTMLUListElement>(null);
-  const first = photos[0];
-  // The 3D journey ends inside the dome, and opens onto the real place.
-  const arrival = photos[1] ?? photos[0];
+  // Each photograph has one role, and appears once: the dome is where the 3D
+  // journey arrives; every other photo hangs in the exhibition after it.
+  const arrival = photos.find((m) => m.slug === spaces.arrivalSlug) ?? photos[photos.length - 1];
+  const exhibits = photos.filter((m) => m !== arrival);
+  const missing = photos.length === 0;
   const revealRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(0);
 
@@ -80,8 +81,8 @@ export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
       gl = new NiemeyerGL(canvas, {
         lite,
         font: getComputedStyle(stage).fontFamily || font,
-        photoLabel: spaces.photoLabel,
-        photo: first ? { src: first.src, w: first.w, h: first.h } : undefined,
+        photoLabel: missing ? spaces.photoLabel : spaces.sheetLabel,
+        missing,
       });
       size();
       stage.dataset.gl = "on";
@@ -124,7 +125,7 @@ export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
       window.removeEventListener("pointermove", onMove);
       gl?.dispose();
     };
-  }, [first]);
+  }, [missing]);
 
   // Calm part: reveal on entry.
   useEffect(() => {
@@ -133,23 +134,20 @@ export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
     const tweens = Array.from(el.querySelectorAll<HTMLElement>("[data-reveal]")).map((n) =>
       gsap.fromTo(n, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 1.1, ease: "expo.out", scrollTrigger: { trigger: n, start: "top 85%" } }),
     );
-    // The photographs travel sideways as the page scrolls (wide screens).
-    const track = trackRef.current;
-    const slide =
-      track && window.matchMedia("(min-width: 1024px)").matches
-        ? gsap.fromTo(
-            track,
-            { x: () => window.innerWidth * 0.06 },
-            {
-              x: () => Math.min(0, window.innerWidth * 0.94 - track.scrollWidth),
-              ease: "none",
-              scrollTrigger: { trigger: track, start: "top bottom", end: "bottom top", scrub: 1, invalidateOnRefresh: true },
-            },
-          )
-        : null;
+    // Exhibition: each frame opens like a wall being lit, the photograph
+    // drifting slowly inside it as you walk past.
+    const hangs = Array.from(el.querySelectorAll<HTMLElement>(`.${s.exhibitFrame}`)).flatMap((f) => {
+      const img = f.querySelector("img");
+      return [
+        gsap.fromTo(f, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", ease: "power2.out", scrollTrigger: { trigger: f, start: "top 90%", end: "top 35%", scrub: 1 } }),
+        gsap.fromTo(img, { yPercent: -6, scale: 1.12 }, { yPercent: 6, scale: 1.04, ease: "none", scrollTrigger: { trigger: f, start: "top bottom", end: "bottom top", scrub: true } }),
+      ];
+    });
     return () => {
-      slide?.scrollTrigger?.kill();
-      slide?.kill();
+      hangs.forEach((t) => {
+        t.scrollTrigger?.kill();
+        t.kill();
+      });
       tweens.forEach((t) => {
         t.scrollTrigger?.kill();
         t.kill();
@@ -196,6 +194,7 @@ export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
       </div>
 
       <div className={s.calm} data-theme-zone="dark">
+        {(exhibits.length > 0 || missing) && (
         <div className={s.photos}>
           <header className={s.photosHead} data-reveal>
             <p className={`${s.kickerDark} aa-micro`}>{spaces.galleryKicker}</p>
@@ -203,27 +202,40 @@ export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
               {spaces.galleryTitle[0]} <em>{spaces.galleryTitle[1]}</em>
             </h3>
           </header>
-          <ul ref={trackRef} className={s.track} aria-label="Photographies de l'Espace Niemeyer">
-            {photos.length > 0
-              ? photos.map((m) => {
-                  const cap = sharpWidth(m);
-                  return (
-                    <li key={m.src} className={s.shot} style={{ "--ar": `${m.w} / ${m.h}`, "--cap": `${cap}px` } as CSSProperties}>
-                      <figure className={s.shotFigure}>
-                        <Photo media={m} sizes={`(min-width: 1024px) min(60vw, ${cap}px), 86vw`} />
-                        {m.caption && <figcaption className="aa-micro">{m.caption}</figcaption>}
-                      </figure>
-                    </li>
-                  );
-                })
-              : spaces.missing.map((label, i) => (
-                  <li key={label} className={`${s.shot} ${s.shotMissing}`} style={{ "--ar": i === 1 ? "4 / 5" : "3 / 2" } as CSSProperties}>
-                    <span className="aa-micro">Photographie à fournir</span>
-                    <span className="aa-micro">Espace Niemeyer — {label}</span>
+          {exhibits.length > 0 && (
+            <ol className={s.exhibits} aria-label="Photographies de l'Espace Niemeyer">
+              {exhibits.map((m, i) => {
+                const cap = sharpWidth(m);
+                const note = spaces.notes[m.slug];
+                return (
+                  <li key={m.src} className={s.exhibit} data-side={i % 2 ? "right" : "left"}>
+                    <figure className={s.exhibitFrame} style={{ "--ar": `${m.w} / ${m.h}`, "--cap": `${cap}px` } as CSSProperties}>
+                      <Photo media={m} sizes={`(min-width: 1024px) min(46vw, ${cap}px), 88vw`} />
+                    </figure>
+                    <aside className={s.cartel} data-reveal>
+                      <span className="aa-micro">N° {String(i + 1).padStart(2, "0")}</span>
+                      <p className={s.cartelTitle}>{m.caption ?? spaces.place}</p>
+                      <p className="aa-micro">{spaces.galleryKicker}</p>
+                      <p className="aa-micro">{spaces.architect}</p>
+                      {note && <p className={s.cartelNote}>« {note} »</p>}
+                    </aside>
                   </li>
-                ))}
-          </ul>
+                );
+              })}
+            </ol>
+          )}
+          {missing && (
+            <ul className={s.track} aria-label="Photographies de l'Espace Niemeyer à fournir">
+              {spaces.missing.map((label, i) => (
+                <li key={label} className={`${s.shot} ${s.shotMissing}`} style={{ "--ar": i === 1 ? "4 / 5" : "3 / 2" } as CSSProperties}>
+                  <span className="aa-micro">Photographie à fournir</span>
+                  <span className="aa-micro">Espace Niemeyer — {label}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
+        )}
 
         <div className={s.text}>
           <p className={`${s.kickerDark} aa-micro`} data-reveal>

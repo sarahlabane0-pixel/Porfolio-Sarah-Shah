@@ -84,11 +84,9 @@ export class NiemeyerGL {
   private pointerCur = new THREE.Vector2();
   private narrow = false;
 
-  private hasPhoto = false;
-
   constructor(
     canvas: HTMLCanvasElement,
-    opts: { lite: boolean; font: string; photoLabel: string; photo?: { src: string; w: number; h: number } },
+    opts: { lite: boolean; font: string; photoLabel: string; missing: boolean },
   ) {
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, opts.lite ? 1.5 : 2));
@@ -113,20 +111,22 @@ export class NiemeyerGL {
     this.buildArchitecture(opts.lite);
     this.scene.add(this.group);
 
-    // Picture plane: holds Sarah's photograph once supplied. Until then it
-    // says, in so many words, that it is waiting for one.
+    // Picture plane: the elevation sheet the drawing starts on. (Sarah's
+    // photographs each have their own moment elsewhere — none is repeated
+    // here.) With no photos at all yet, it says it is waiting for them.
     const photoTex = this.textTexture(1600, 900, (ctx, w, h) => {
       ctx.fillStyle = "rgba(242,236,228,0.05)";
       ctx.fillRect(0, 0, w, h);
       ctx.strokeStyle = "rgba(242,236,228,0.55)";
-      ctx.setLineDash([14, 12]);
-      ctx.lineWidth = 3;
+      // Waiting for photos: dashed. Otherwise a drawing sheet, thin and solid.
+      ctx.setLineDash(opts.missing ? [14, 12] : []);
+      ctx.lineWidth = opts.missing ? 3 : 2;
       ctx.strokeRect(10, 10, w - 20, h - 20);
       ctx.setLineDash([]);
       ctx.fillStyle = "rgba(242,236,228,0.8)";
       ctx.font = `500 30px ${opts.font}`;
       ctx.textBaseline = "top";
-      ctx.fillText(`PHOTOGRAPHIE À FOURNIR — ${opts.photoLabel.toUpperCase()}`, 44, h - 76);
+      ctx.fillText(opts.missing ? `PHOTOGRAPHIE À FOURNIR — ${opts.photoLabel.toUpperCase()}` : opts.photoLabel.toUpperCase(), 44, h - 76);
     });
     this.photo = new THREE.Mesh(
       new THREE.PlaneGeometry(32, 18),
@@ -135,28 +135,6 @@ export class NiemeyerGL {
     this.photo.position.set(0, 6.5, 0.4);
     this.scene.add(this.photo);
     this.disposables.push(this.photo.geometry, this.photo.material, photoTex);
-
-    // Sarah's photograph, when supplied, replaces the placeholder: the lines
-    // are then drawn over the real place, then pulled out of it.
-    if (opts.photo) {
-      const { src, w, h } = opts.photo;
-      new THREE.TextureLoader().load(src, (tex) => {
-        tex.colorSpace = THREE.SRGBColorSpace;
-        tex.anisotropy = 4;
-        const aspect = w / h;
-        let pw = 18 * aspect;
-        let ph = 18;
-        if (pw > 34) {
-          pw = 34;
-          ph = 34 / aspect;
-        }
-        this.photo.scale.set(pw / 32, ph / 18, 1);
-        this.photo.material.map = tex;
-        this.photo.material.needsUpdate = true;
-        this.hasPhoto = true;
-        this.disposables.push(tex);
-      });
-    }
 
     // The words, standing inside the dome.
     const wordsTex = this.textTexture(2048, 420, (ctx, w, h) => {
@@ -304,8 +282,7 @@ export class NiemeyerGL {
       THREE.MathUtils.lerp(-13 + 2.6 * Math.sin(along * 0.32 + 0.6), -4, toDome),
     );
 
-    // A real photograph stays present as the backdrop; the placeholder fades.
-    this.photo.material.opacity = 1 - smooth(0.12, 0.34, p) * (this.hasPhoto ? 0.7 : 0.94);
+    this.photo.material.opacity = 1 - smooth(0.12, 0.34, p) * 0.94;
     this.photo.position.z = 0.4 - smooth(0.12, 0.45, p) * 14;
     this.words.material.opacity = smooth(0.66, 0.84, p);
 

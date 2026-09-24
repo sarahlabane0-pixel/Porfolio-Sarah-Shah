@@ -12,7 +12,7 @@ const CAPTIONS: Record<string, string> = {
   coupole: "Sous la coupole",
 };
 
-export type NiemeyerPhoto = Media & { caption?: string };
+export type NiemeyerPhoto = Media & { slug: string; caption?: string };
 const EXT = /\.(jpe?g|png|webp|avif)$/i;
 
 /**
@@ -37,6 +37,7 @@ export async function loadNiemeyerPhotos(): Promise<NiemeyerPhoto[]> {
       const slug = f.replace(EXT, "").replace(/^niemeyer-\d+-?/i, "").toLowerCase();
       const caption = CAPTIONS[slug];
       out.push({
+        slug,
         caption,
         src: `/assets/places/niemeyer/${encodeURIComponent(f)}`,
         w: rotated ? meta.height : meta.width,

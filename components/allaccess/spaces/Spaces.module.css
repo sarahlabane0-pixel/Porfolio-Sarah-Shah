@@ -147,7 +147,7 @@
 
 .photos {
   grid-column: 1 / -1;
-  margin: 0 calc(var(--aa-gutter) * -1) clamp(2rem, 5vw, 4rem);
+  margin: 0 calc(var(--aa-gutter) * -1) clamp(3rem, 7vw, 6rem);
   overflow: hidden;
 }
 
@@ -480,5 +480,98 @@
 
   .revealTitle {
     font-size: clamp(1.8rem, 9vw, 3rem);
+  }
+}
+
+/* ─── Exhibition: each photograph hangs once, with its cartel ─── */
+
+.exhibits {
+  display: grid;
+  gap: clamp(4rem, 10vw, 9rem);
+  margin: 0;
+  padding: 0 var(--aa-gutter);
+  list-style: none;
+}
+
+.exhibit {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  align-items: end;
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+.exhibit[data-side="right"] {
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+}
+
+.exhibit[data-side="right"] .exhibitFrame {
+  order: 2;
+  justify-self: start;
+}
+
+.exhibitFrame {
+  justify-self: end;
+  height: min(84svh, 56rem);
+  max-width: min(100%, var(--cap));
+  aspect-ratio: var(--ar);
+  margin: 0;
+  overflow: hidden;
+  background: var(--aa-green-ink);
+  box-shadow: 0 3rem 6rem -2.5rem rgb(0 0 0 / 0.6);
+}
+
+.exhibitFrame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+/* The wall label — a museum cartel. */
+.cartel {
+  display: grid;
+  gap: 0.45rem;
+  max-width: 19rem;
+  padding: 1.3rem 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--aa-sage) 45%, transparent);
+  color: color-mix(in srgb, var(--aa-ivory) 70%, transparent);
+}
+
+.cartel p {
+  margin: 0;
+}
+
+.cartelTitle {
+  margin-bottom: 0.3rem !important;
+  font-family: var(--aa-serif);
+  font-style: italic;
+  font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+  line-height: 1;
+  color: var(--aa-ivory);
+}
+
+.cartelNote {
+  margin-top: 0.9rem !important;
+  font-family: var(--aa-serif);
+  font-size: 1.1rem;
+  line-height: 1.3;
+  color: var(--aa-sage);
+}
+
+@media (max-width: 767px) {
+  .exhibit,
+  .exhibit[data-side="right"] {
+    grid-template-columns: 1fr;
+  }
+
+  .exhibit[data-side="right"] .exhibitFrame {
+    order: 0;
+  }
+
+  .exhibitFrame {
+    justify-self: center;
+    height: auto;
+    width: 100%;
   }
 }

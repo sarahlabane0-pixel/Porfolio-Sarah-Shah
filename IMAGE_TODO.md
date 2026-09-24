@@ -83,14 +83,17 @@ in `public/assets/places/niemeyer/`:
 
 | File | Shows | Used for |
 |---|---|---|
-| `niemeyer-01-foyer.webp` | the foyer: green carpet, armchairs, curved board-formed concrete | the photograph in the 3D picture plane (the lines are drawn over it, then extruded); gallery |
-| `niemeyer-02-coupole.webp` | the chamber under the dome, ceiling of blades | the arrival: the 3D dome opens onto it, "I COLLECT SPACES." over it; gallery |
+| `niemeyer-01-foyer.webp` | the foyer: green carpet, armchairs, curved board-formed concrete | "Le lieu, en vrai." — hung alone, with its cartel |
+| `niemeyer-02-coupole.webp` | the chamber under the dome, ceiling of blades | the arrival: the 3D dome opens onto it, "I COLLECT SPACES." over it |
+
+**One role per photograph, never repeated.** The photo whose name contains
+`coupole` is the 3D arrival; every other photo hangs once in the exhibition.
+The 3D picture plane is a plain elevation sheet (no photo).
 
 Any further file dropped in that folder is picked up at build time (sorted by
 name, real dimensions via sharp — `lib/niemeyerPhotos.ts`) and added to the
-gallery. Captions come from the file name (`foyer`, `coupole`); unknown names
-get none. A landscape frontal view of the building (≥ 2400 px), if you have
-one, would make an even better first photo for the picture plane.
+exhibition. Captions come from the file name (`foyer`, `coupole`); unknown
+names get none.
 
 ## Higher-resolution files needed (for a truly premium result)
 
