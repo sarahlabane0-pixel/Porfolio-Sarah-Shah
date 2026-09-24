@@ -84,7 +84,12 @@ export class NiemeyerGL {
   private pointerCur = new THREE.Vector2();
   private narrow = false;
 
-  constructor(canvas: HTMLCanvasElement, opts: { lite: boolean; font: string; photoLabel: string }) {
+  private hasPhoto = false;
+
+  constructor(
+    canvas: HTMLCanvasElement,
+    opts: { lite: boolean; font: string; photoLabel: string; photo?: { src: string; w: number; h: number } },
+  ) {
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, opts.lite ? 1.5 : 2));
     this.renderer.setClearColor(0x000000, 0);
@@ -96,8 +101,8 @@ export class NiemeyerGL {
       depthWrite: false,
       uniforms: {
         uExtrude: { value: 0 },
-        uInk: { value: new THREE.Color("#f2ece4") },
-        uLightColor: { value: new THREE.Color("#ff6557") },
+        uInk: { value: new THREE.Color("#eef2ea") },
+        uLightColor: { value: new THREE.Color("#c9f0d8") },
         uLightPos: { value: new THREE.Vector3(0, 6, -6) },
         uLightAmt: { value: 0 },
         uAlpha: { value: 0.75 },
@@ -130,6 +135,28 @@ export class NiemeyerGL {
     this.photo.position.set(0, 6.5, 0.4);
     this.scene.add(this.photo);
     this.disposables.push(this.photo.geometry, this.photo.material, photoTex);
+
+    // Sarah's photograph, when supplied, replaces the placeholder: the lines
+    // are then drawn over the real place, then pulled out of it.
+    if (opts.photo) {
+      const { src, w, h } = opts.photo;
+      new THREE.TextureLoader().load(src, (tex) => {
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.anisotropy = 4;
+        const aspect = w / h;
+        let pw = 18 * aspect;
+        let ph = 18;
+        if (pw > 34) {
+          pw = 34;
+          ph = 34 / aspect;
+        }
+        this.photo.scale.set(pw / 32, ph / 18, 1);
+        this.photo.material.map = tex;
+        this.photo.material.needsUpdate = true;
+        this.hasPhoto = true;
+        this.disposables.push(tex);
+      });
+    }
 
     // The words, standing inside the dome.
     const wordsTex = this.textTexture(2048, 420, (ctx, w, h) => {
@@ -277,7 +304,8 @@ export class NiemeyerGL {
       THREE.MathUtils.lerp(-13 + 2.6 * Math.sin(along * 0.32 + 0.6), -4, toDome),
     );
 
-    this.photo.material.opacity = 1 - smooth(0.12, 0.34, p) * 0.94;
+    // A real photograph stays present as the backdrop; the placeholder fades.
+    this.photo.material.opacity = 1 - smooth(0.12, 0.34, p) * (this.hasPhoto ? 0.7 : 0.94);
     this.photo.position.z = 0.4 - smooth(0.12, 0.45, p) * 14;
     this.words.material.opacity = smooth(0.66, 0.84, p);
 

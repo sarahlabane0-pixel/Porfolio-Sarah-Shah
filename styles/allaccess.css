@@ -11,6 +11,13 @@
   --aa-coral: #ff6557;
   --aa-black: #0d0b0c;
 
+  /* Spaces (Espace Niemeyer) only: a deep, architectural green. */
+  --aa-green-ink: #07170f;
+  --aa-green-deep: #0e2a20;
+  --aa-green: #173d30;
+  --aa-green-soft: #2b5e4b;
+  --aa-sage: #a9c7b6;
+
   --aa-ivory-60: color-mix(in srgb, var(--aa-ivory) 60%, transparent);
   --aa-ivory-30: color-mix(in srgb, var(--aa-ivory) 30%, transparent);
   --aa-chrome-40: color-mix(in srgb, var(--aa-chrome) 40%, transparent);

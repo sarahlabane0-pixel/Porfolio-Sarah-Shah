@@ -75,25 +75,33 @@ Extracted from Sarah's own PDFs (original embedded bytes, no upscaling):
 |---|---|---|
 | Postcards | "Image à fournir — Marrakech" card | A photo of Marrakech (Jemaa el-Fna, La Mamounia…). The blue-street photo is **Chefchaouen**, not Marrakech, and is not used |
 | Postcards | "Image à fournir — New York" card | A personal New York photo (Brooklyn street art, Broadway…). `new-york-liberty-empire-state.jpg` looks like a composite/stock view and is **not used** |
-| Spaces (3D) | The frame "Photographie à fournir — Espace Niemeyer — Paris" | See the Niemeyer section below |
+| Spaces (3D + gallery) | "Photographie à fournir" frames | Your Espace Niemeyer photos — see the Niemeyer section below |
 
-## Espace Niemeyer — exactly what the 3D scene needs
+## Espace Niemeyer — photos not received
 
-The 3D scene starts as a flat drawing in the frame where the photograph goes,
-then extrudes into space. To make it work with the real place, I need:
+**None of the files available to me contains a photo of Espace Niemeyer.**
+Checked: the CV (it only names the place in the interests line), the About
+Me deck (7 pages), Portfolio 2025 (9 pages), the SEP dossier (25 pages), the
+images attached in the conversation (three portrait files only), the repo, its
+history and every branch.
 
-1. **One frontal/elevation photo** (landscape, ideally ≥ 2400 px wide):
-   the dome and/or the curved façade seen straight on, horizon level. This
-   becomes the "flat photo" the lines extrude from.
-2. **One photo of the dome** (the white cupola emerging from the plaza), any
-   orientation, ≥ 2000 px.
-3. *(Optional)* **One interior photo** (the council chamber ceiling, or the
-   curved hall), ≥ 2000 px, for the moment the camera is "inside".
-4. Tell me whether they are your own photos (for credit/caption).
+The chapter is wired to pick your photos up automatically. Put them here:
 
-The line architecture is an **abstract interpretation**, labelled as such on
-the page, not a reconstruction. With the frontal photo I will align the lines
-to its real curves.
+    public/assets/places/niemeyer/
+
+Any .jpg / .jpeg / .png / .webp / .avif in that folder is read at build time
+(sorted by file name, real dimensions via sharp — `lib/niemeyerPhotos.ts`):
+
+- the **first** file becomes the photograph the 3D lines extrude from, and
+  stays visible behind the architecture. Ideally a frontal / elevation view,
+  landscape, ≥ 2400 px wide.
+- **every** file is shown, large, in the "Le lieu, en vrai." gallery right
+  after the 3D moment.
+
+Suggested: `niemeyer-01-facade.jpg` (frontal), `niemeyer-02-dome.jpg`,
+`niemeyer-03-interior.jpg`, then any others. Until then the plane and the
+gallery show clearly labelled "Photographie à fournir" frames. The pipeline
+was tested end to end with temporary images, which were then removed.
 
 ## Higher-resolution files needed (for a truly premium result)
 

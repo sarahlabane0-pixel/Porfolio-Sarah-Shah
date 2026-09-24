@@ -123,6 +123,9 @@ export const spaces = {
   note: "Interprétation abstraite des courbes d'Oscar Niemeyer — pas une reconstruction.",
   steps: ["Élévation", "Volume", "Lumière"],
   photoLabel: "Espace Niemeyer — Paris",
+  galleryKicker: "Espace Niemeyer — Paris",
+  galleryTitle: ["Le lieu,", "en vrai."],
+  missing: ["vue frontale", "le dôme", "l'intérieur"],
   gallery: [
     { key: "aura", title: "AURA Invalides", noteIndex: 0 },
     { key: "bourse", title: "Bourse de Commerce", noteIndex: 1 },

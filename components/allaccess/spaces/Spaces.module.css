@@ -1,10 +1,11 @@
 /* 04 — SPACES
-   A pinned WebGL stage (the line architecture), then a calm ivory spread:
-   Sarah's Niemeyer text and the places she has observed. */
+   The chapter's own light: a deep architectural green, from the 3D stage
+   through the photographs, the text and the places. */
 
 .spaces {
   position: relative;
-  background: var(--aa-ivory);
+  background: var(--aa-green-deep);
+  color: var(--aa-ivory);
 }
 
 .stage {
@@ -14,8 +15,17 @@
   overflow: hidden;
   color: var(--aa-ivory);
   background:
-    radial-gradient(80% 70% at 60% 60%, color-mix(in srgb, var(--aa-burgundy) 55%, transparent), transparent 70%),
-    var(--aa-night);
+    radial-gradient(85% 75% at 58% 62%, color-mix(in srgb, var(--aa-green-soft) 75%, transparent), transparent 72%),
+    linear-gradient(180deg, var(--aa-green-deep) 0%, var(--aa-green-ink) 100%);
+}
+
+/* Soft vignette so the lines glow against the green. */
+.stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 50%, transparent 55%, color-mix(in srgb, var(--aa-green-ink) 70%, transparent) 100%);
 }
 
 .canvas {
@@ -108,7 +118,7 @@
 }
 
 .step[data-on="true"]:last-child span {
-  color: var(--aa-coral);
+  color: var(--aa-sage);
 }
 
 .stage[data-gl="off"] .steps {
@@ -121,13 +131,80 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(2.5rem, 6vw, 6rem) clamp(2rem, 6vw, 7rem);
-  padding: clamp(6rem, 12vw, 11rem) var(--aa-gutter) clamp(5rem, 10vw, 9rem);
-  color: var(--aa-black);
+  padding: clamp(5rem, 10vw, 9rem) var(--aa-gutter) clamp(5rem, 10vw, 9rem);
+  color: var(--aa-ivory);
+  background:
+    radial-gradient(70% 50% at 80% 0%, color-mix(in srgb, var(--aa-green-soft) 45%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--aa-green-ink) 0%, var(--aa-green-deep) 18%, var(--aa-green) 100%);
 }
 
 .kickerDark {
   margin: 0 0 1.4rem;
-  color: color-mix(in srgb, var(--aa-black) 55%, transparent);
+  color: color-mix(in srgb, var(--aa-sage) 85%, transparent);
+}
+
+/* ─── Espace Niemeyer — the photographs ─── */
+
+.photos {
+  grid-column: 1 / -1;
+  margin: 0 calc(var(--aa-gutter) * -1) clamp(2rem, 5vw, 4rem);
+  overflow: hidden;
+}
+
+.photosHead {
+  padding: 0 var(--aa-gutter);
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.photosTitle {
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(2.6rem, 6vw, 6.4rem);
+  line-height: 0.9;
+  letter-spacing: var(--aa-track-tight);
+}
+
+.photosTitle em {
+  font-family: var(--aa-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--aa-sage);
+}
+
+.track {
+  display: flex;
+  gap: clamp(1rem, 2vw, 2rem);
+  margin: 0;
+  padding: 0 var(--aa-gutter);
+  list-style: none;
+  width: max-content;
+  will-change: transform;
+}
+
+.shot {
+  flex: none;
+  height: min(70svh, 44rem);
+  max-width: min(86vw, var(--cap, 100vw));
+  aspect-ratio: var(--ar);
+  overflow: hidden;
+  background: var(--aa-green-ink);
+}
+
+.shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shotMissing {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.2rem;
+  border: 1px dashed color-mix(in srgb, var(--aa-sage) 55%, transparent);
+  background: repeating-linear-gradient(135deg, transparent 0 12px, color-mix(in srgb, var(--aa-sage) 7%, transparent) 12px 13px);
+  color: var(--aa-sage);
 }
 
 .calmTitle,
@@ -144,7 +221,7 @@
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.02em;
-  color: var(--aa-burgundy);
+  color: var(--aa-sage);
 }
 
 .para {
@@ -152,6 +229,7 @@
   margin: 0 0 1rem;
   font-size: 1rem;
   line-height: 1.6;
+  color: color-mix(in srgb, var(--aa-ivory) 82%, transparent);
 }
 
 /* Expanding panels. */
@@ -184,7 +262,7 @@
   width: 100%;
   padding: 0;
   text-align: left;
-  background: var(--aa-black);
+  background: var(--aa-green-ink);
 }
 
 .panelImg {
@@ -231,8 +309,9 @@
   max-width: 19rem;
   margin: 0;
   padding: 0.9rem 1rem;
-  background: color-mix(in srgb, var(--aa-ivory) 92%, transparent);
-  color: var(--aa-black);
+  background: color-mix(in srgb, var(--aa-green-deep) 88%, transparent);
+  color: var(--aa-ivory);
+  border: 1px solid color-mix(in srgb, var(--aa-sage) 30%, transparent);
   font-size: 0.82rem;
   line-height: 1.45;
   opacity: 0;
@@ -251,6 +330,17 @@
 @media (max-width: 1023px) {
   .calm {
     grid-template-columns: 1fr;
+  }
+
+  .photos {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .shot {
+    height: min(56svh, 30rem);
+    scroll-snap-align: start;
   }
 
   .panels {

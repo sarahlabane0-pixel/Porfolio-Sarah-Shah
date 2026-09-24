@@ -1,17 +1,24 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { curiosity, niemeyer, spaces } from "@/content/allaccess";
-import { media } from "@/content/media";
+import { media, type Media } from "@/content/media";
 import { webglAvailable } from "../hero/PortraitGL";
-import { Photo } from "../Photo";
+import { Photo, sharpWidth } from "../Photo";
 import s from "./Spaces.module.css";
 
-export function Spaces() {
+/**
+ * `photos` are Sarah's Espace Niemeyer photographs, read at build time from
+ * public/assets/places/niemeyer/ (see lib/niemeyerPhotos.ts). The first one
+ * is the picture the 3D lines are pulled out of; all of them get the gallery.
+ */
+export function Spaces({ photos }: { photos: Media[] }) {
   const root = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const trackRef = useRef<HTMLUListElement>(null);
+  const first = photos[0];
   const [open, setOpen] = useState(0);
 
   useEffect(() => {
@@ -53,7 +60,12 @@ export function Spaces() {
     const font = getComputedStyle(stage).getPropertyValue("--aa-display") || "sans-serif";
     import("./NiemeyerGL").then(({ NiemeyerGL }) => {
       if (disposed) return;
-      gl = new NiemeyerGL(canvas, { lite, font: getComputedStyle(stage).fontFamily || font, photoLabel: spaces.photoLabel });
+      gl = new NiemeyerGL(canvas, {
+        lite,
+        font: getComputedStyle(stage).fontFamily || font,
+        photoLabel: spaces.photoLabel,
+        photo: first ? { src: first.src, w: first.w, h: first.h } : undefined,
+      });
       size();
       stage.dataset.gl = "on";
 
@@ -93,7 +105,7 @@ export function Spaces() {
       window.removeEventListener("pointermove", onMove);
       gl?.dispose();
     };
-  }, []);
+  }, [first]);
 
   // Calm part: reveal on entry.
   useEffect(() => {
@@ -102,11 +114,28 @@ export function Spaces() {
     const tweens = Array.from(el.querySelectorAll<HTMLElement>("[data-reveal]")).map((n) =>
       gsap.fromTo(n, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 1.1, ease: "expo.out", scrollTrigger: { trigger: n, start: "top 85%" } }),
     );
-    return () =>
+    // The photographs travel sideways as the page scrolls (wide screens).
+    const track = trackRef.current;
+    const slide =
+      track && window.matchMedia("(min-width: 1024px)").matches
+        ? gsap.fromTo(
+            track,
+            { x: () => window.innerWidth * 0.06 },
+            {
+              x: () => Math.min(0, window.innerWidth * 0.94 - track.scrollWidth),
+              ease: "none",
+              scrollTrigger: { trigger: track, start: "top bottom", end: "bottom top", scrub: 1, invalidateOnRefresh: true },
+            },
+          )
+        : null;
+    return () => {
+      slide?.scrollTrigger?.kill();
+      slide?.kill();
       tweens.forEach((t) => {
         t.scrollTrigger?.kill();
         t.kill();
       });
+    };
   }, []);
 
   const gallery = spaces.gallery.map((g) => ({ ...g, media: media[g.key] }));
@@ -133,7 +162,33 @@ export function Spaces() {
         </ol>
       </div>
 
-      <div className={s.calm} data-theme-zone="light">
+      <div className={s.calm} data-theme-zone="dark">
+        <div className={s.photos}>
+          <header className={s.photosHead} data-reveal>
+            <p className={`${s.kickerDark} aa-micro`}>{spaces.galleryKicker}</p>
+            <h3 className={s.photosTitle}>
+              {spaces.galleryTitle[0]} <em>{spaces.galleryTitle[1]}</em>
+            </h3>
+          </header>
+          <ul ref={trackRef} className={s.track} aria-label="Photographies de l'Espace Niemeyer">
+            {photos.length > 0
+              ? photos.map((m) => {
+                  const cap = sharpWidth(m);
+                  return (
+                    <li key={m.src} className={s.shot} style={{ "--ar": `${m.w} / ${m.h}`, "--cap": `${cap}px` } as CSSProperties}>
+                      <Photo media={m} sizes={`(min-width: 1024px) min(60vw, ${cap}px), 86vw`} />
+                    </li>
+                  );
+                })
+              : spaces.missing.map((label, i) => (
+                  <li key={label} className={`${s.shot} ${s.shotMissing}`} style={{ "--ar": i === 1 ? "4 / 5" : "3 / 2" } as CSSProperties}>
+                    <span className="aa-micro">Photographie à fournir</span>
+                    <span className="aa-micro">Espace Niemeyer — {label}</span>
+                  </li>
+                ))}
+          </ul>
+        </div>
+
         <div className={s.text}>
           <p className={`${s.kickerDark} aa-micro`} data-reveal>
             {niemeyer.kicker}
