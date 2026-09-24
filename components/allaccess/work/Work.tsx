@@ -194,7 +194,9 @@ export function Work() {
         invalidateOnRefresh: true,
         animation: tl,
         onUpdate: (self) => {
-          const time = tl.time();
+          // Scroll position, not the (smoothed) animation time — so the rail
+          // is right even straight after a jump.
+          const time = self.progress * tl.duration();
           let active = 0;
           labels.forEach((l, k) => {
             if (time >= l - 0.8) active = k;

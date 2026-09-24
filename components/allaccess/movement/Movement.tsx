@@ -65,7 +65,7 @@ export function Movement() {
         animation: tl,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
-          const beat = Math.floor(tl.time() / BEAT);
+          const beat = Math.floor((self.progress * tl.duration()) / BEAT);
           dots.forEach((d, k) => (d.dataset.on = String(beat % 4 === k)));
           skewTo(gsap.utils.clamp(-9, 9, self.getVelocity() / -260));
         },
