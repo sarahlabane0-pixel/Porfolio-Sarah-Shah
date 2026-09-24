@@ -284,7 +284,8 @@ export class NiemeyerGL {
 
     this.photo.material.opacity = 1 - smooth(0.12, 0.34, p) * 0.94;
     this.photo.position.z = 0.4 - smooth(0.12, 0.45, p) * 14;
-    this.words.material.opacity = smooth(0.66, 0.84, p);
+    // Handed over to the words set on the real photograph once it opens.
+    this.words.material.opacity = smooth(0.66, 0.84, p) * (1 - smooth(0.9, 0.96, p));
 
     const pos = curveAt(p, (k) => k.pos);
     const look = curveAt(p, (k) => k.look);

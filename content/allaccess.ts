@@ -121,7 +121,8 @@ export const spaces = {
   title: "I collect spaces.",
   place: "Espace Niemeyer",
   note: "Interprétation abstraite des courbes d'Oscar Niemeyer — pas une reconstruction.",
-  steps: ["Élévation", "Volume", "Lumière"],
+  // The last step is where the drawing hands over to the real place.
+  steps: ["Élévation", "Volume", "Lumière", "Observation"],
   photoLabel: "Espace Niemeyer — Paris",
   galleryKicker: "Espace Niemeyer — Paris",
   galleryTitle: ["Le lieu,", "en vrai."],

@@ -105,7 +105,7 @@ export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
         anticipatePin: 1,
         onUpdate: (self) => {
           gl?.setProgress(self.progress);
-          const k = self.progress < 0.3 ? 0 : self.progress < 0.62 ? 1 : 2;
+          const k = self.progress < 0.3 ? 0 : self.progress < 0.62 ? 1 : self.progress < 0.94 ? 2 : 3;
           steps.forEach((n, i) => (n.dataset.on = String(i <= k)));
           stage.dataset.words = String(self.progress > 0.7);
           setReveal(self.progress);
@@ -134,6 +134,21 @@ export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
     const tweens = Array.from(el.querySelectorAll<HTMLElement>("[data-reveal]")).map((n) =>
       gsap.fromTo(n, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 1.1, ease: "expo.out", scrollTrigger: { trigger: n, start: "top 85%" } }),
     );
+    // Handover: as the real place rises, the interpretation falls behind —
+    // slower than the page, dimming, receding — so the 3D stage never just
+    // ends; it becomes the background you walk away from.
+    const stage = stageRef.current;
+    const calm = el.querySelector<HTMLElement>(`.${s.calm}`);
+    const handover =
+      stage && calm
+        ? gsap
+            .timeline({ scrollTrigger: { trigger: calm, start: "top bottom", end: "top 10%", scrub: true } })
+            .to(stage.querySelectorAll(`.${s.canvas}, .${s.reveal}, .${s.overlay}, .${s.steps}`), { y: () => window.innerHeight * 0.38, ease: "none" }, 0)
+            .to(stage.querySelectorAll(`.${s.canvas}, .${s.reveal}`), { opacity: 0.15, scale: 0.94, ease: "power1.in" }, 0)
+            .to(stage.querySelectorAll(`.${s.overlay}, .${s.steps}`), { autoAlpha: 0, ease: "power1.in" }, 0)
+            .fromTo(stage.querySelector(`.${s.stageFade}`), { autoAlpha: 0 }, { autoAlpha: 1, ease: "none" }, 0)
+        : null;
+
     // Exhibition: each frame opens like a wall being lit, the photograph
     // drifting slowly inside it as you walk past.
     const hangs = Array.from(el.querySelectorAll<HTMLElement>(`.${s.exhibitFrame}`)).flatMap((f) => {
@@ -144,6 +159,8 @@ export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
       ];
     });
     return () => {
+      handover?.scrollTrigger?.kill();
+      handover?.kill();
       hangs.forEach((t) => {
         t.scrollTrigger?.kill();
         t.kill();
@@ -161,6 +178,7 @@ export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
     <section ref={root} id="spaces" className={s.spaces} data-chapter="04" aria-labelledby="spaces-title">
       <div ref={stageRef} className={s.stage} data-gl="pending" data-theme-zone="dark">
         <canvas ref={canvasRef} className={s.canvas} aria-hidden="true" />
+        <div className={s.stageFade} aria-hidden="true" />
         <header className={s.overlay}>
           <p className={`${s.kicker} aa-micro`}>04 — {spaces.kicker}</p>
           <p className={s.place}>{spaces.place}</p>
@@ -197,7 +215,10 @@ export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
         {(exhibits.length > 0 || missing) && (
         <div className={s.photos}>
           <header className={s.photosHead} data-reveal>
-            <p className={`${s.kickerDark} aa-micro`}>{spaces.galleryKicker}</p>
+            <p className={`${s.kickerDark} ${s.handover} aa-micro`}>
+              <span>04 — {spaces.steps[3]}</span>
+              <span>{spaces.galleryKicker}</span>
+            </p>
             <h3 className={s.photosTitle}>
               {spaces.galleryTitle[0]} <em>{spaces.galleryTitle[1]}</em>
             </h3>
