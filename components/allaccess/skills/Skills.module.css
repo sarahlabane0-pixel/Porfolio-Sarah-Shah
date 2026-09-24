@@ -1,0 +1,247 @@
+/* 02 — SKILLS / HUMAN + MAKING
+   The word field fills the section; header and controls float over it. */
+
+.skills {
+  position: relative;
+  height: max(100svh, 680px);
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--aa-ivory);
+  background:
+    radial-gradient(55% 60% at 50% 55%, color-mix(in srgb, var(--aa-burgundy) 85%, transparent) 0%, transparent 72%),
+    radial-gradient(120% 90% at 50% 100%, var(--aa-night) 30%, var(--aa-black) 100%);
+}
+
+/* A faint ring marks the boundary between core (human) and shell (making). */
+.skills::before {
+  content: "";
+  position: absolute;
+  left: 60%;
+  top: 53%;
+  width: min(46vw, 56svh);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 1px solid color-mix(in srgb, var(--aa-chrome) 12%, transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.head {
+  position: absolute;
+  left: var(--aa-gutter);
+  top: calc(5.5rem + var(--aa-safe-top));
+  z-index: 3000;
+  max-width: min(30rem, 88vw);
+  pointer-events: none;
+}
+
+.kicker {
+  margin: 0 0 1.2rem;
+  color: var(--aa-ivory-60);
+}
+
+.title {
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(2rem, 3.6vw, 3.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.line > span {
+  display: block;
+}
+
+.serif {
+  font-family: var(--aa-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--aa-chrome);
+}
+
+.text {
+  margin: 1.1rem 0 0;
+  max-width: 24rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--aa-ivory-60);
+}
+
+/* ─── Field ─── */
+
+.field {
+  position: absolute;
+  inset: 0;
+  touch-action: pan-y;
+  user-select: none;
+  cursor: grab;
+}
+
+.field:active {
+  cursor: grabbing;
+}
+
+.words {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.word {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.5rem;
+  white-space: nowrap;
+  color: var(--aa-ivory);
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+.making .wordText {
+  font-family: var(--aa-display);
+  font-weight: 500;
+  font-size: clamp(0.95rem, 1.7vw, 1.85rem);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.human .wordText {
+  font-family: var(--aa-serif);
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.2vw, 2.4rem);
+  letter-spacing: -0.01em;
+  color: var(--aa-chrome);
+}
+
+/* Category tag — revealed on focus only. */
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.5rem;
+  color: var(--aa-coral);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s var(--aa-ease-out);
+}
+
+.tag i {
+  display: block;
+  width: 1.1rem;
+  height: 1px;
+  background: currentColor;
+}
+
+/* Focus state, whichever word it is (set via :focus-visible / hover in JS). */
+.word[data-on] .tag,
+.word:focus-visible .tag {
+  opacity: 1;
+  transform: none;
+}
+
+.word[data-on] .wordText,
+.word:focus-visible .wordText {
+  color: var(--aa-ivory);
+}
+
+.human[data-on] .wordText,
+.human:focus-visible .wordText {
+  color: var(--aa-coral);
+}
+
+.word:focus-visible {
+  outline: none;
+}
+
+/* ─── Controls ─── */
+
+.controls {
+  position: absolute;
+  left: var(--aa-gutter);
+  right: var(--aa-gutter);
+  bottom: calc(2rem + var(--aa-safe-bottom));
+  z-index: 3000;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  pointer-events: none;
+}
+
+.modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  pointer-events: auto;
+}
+
+.mode {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--aa-chrome) 35%, transparent);
+  border-radius: 999px;
+  color: var(--aa-ivory-60);
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.mode:hover {
+  color: var(--aa-ivory);
+}
+
+.mode[aria-pressed="true"] {
+  border-color: var(--aa-ivory);
+  background: var(--aa-ivory);
+  color: var(--aa-black);
+}
+
+.hint {
+  margin: 0;
+  color: var(--aa-ivory-30);
+}
+
+.hintTouch {
+  display: none;
+}
+
+@media (hover: none) {
+  .hintFine {
+    display: none;
+  }
+
+  .hintTouch {
+    display: inline;
+  }
+}
+
+@media (max-width: 767px) {
+  .head {
+    top: calc(4.8rem + var(--aa-safe-top));
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .skills::before {
+    left: 50%;
+    top: 56%;
+    width: 70vw;
+  }
+}

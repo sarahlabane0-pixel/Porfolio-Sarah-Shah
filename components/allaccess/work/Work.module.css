@@ -1,0 +1,589 @@
+/* ─────────────────────────────────────────────────────────────
+   01 — WORK
+   Default (phones, tablets, reduced motion): scenes in flow, each one a
+   full-bleed block in its own light, photos in a swipeable strip.
+   Stage (≥1024px, motion allowed): one pinned stage, scenes stacked in
+   depth — see the media query at the end.
+   ───────────────────────────────────────────────────────────── */
+
+.work {
+  position: relative;
+  background: var(--aa-ivory);
+  color: var(--aa-black);
+}
+
+/* ─── Intro + line-up (ivory, in flow) ─── */
+
+.intro {
+  position: relative;
+  padding: clamp(6rem, 12vw, 11rem) var(--aa-gutter) clamp(5rem, 9vw, 8rem);
+}
+
+.kicker {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 clamp(2rem, 4vw, 3.5rem);
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--aa-black) 14%, transparent);
+  color: color-mix(in srgb, var(--aa-black) 58%, transparent);
+}
+
+.introTitle {
+  margin: 0;
+  max-width: 14ch;
+  font-weight: 500;
+  font-size: var(--aa-t-giant);
+  line-height: 0.9;
+  letter-spacing: var(--aa-track-tight);
+}
+
+.introTitle em {
+  font-family: var(--aa-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--aa-burgundy);
+}
+
+.introLead {
+  max-width: 34rem;
+  margin: 2rem 0 clamp(3rem, 7vw, 6rem);
+  font-family: var(--aa-serif);
+  font-size: var(--aa-t-lead);
+  line-height: 1.2;
+}
+
+.lineup {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--aa-black) 14%, transparent);
+}
+
+.lineupRow {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1.3fr) minmax(0, 1.4fr) auto;
+  align-items: baseline;
+  gap: 1.5rem;
+  width: 100%;
+  padding: clamp(1rem, 1.8vw, 1.5rem) 0;
+  border-top: 1px solid color-mix(in srgb, var(--aa-black) 14%, transparent);
+  text-align: left;
+  transition:
+    padding 0.5s var(--aa-ease-out),
+    color 0.3s ease;
+}
+
+.lineupRow > span:first-child,
+.lineupRow > span:last-child {
+  color: color-mix(in srgb, var(--aa-black) 55%, transparent);
+}
+
+.lineupName {
+  font-size: clamp(1.5rem, 3vw, 2.8rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.lineupRole {
+  font-size: 0.95rem;
+  color: color-mix(in srgb, var(--aa-black) 70%, transparent);
+}
+
+.lineupRow:hover,
+.lineupRow:focus-visible {
+  padding-left: 1.2rem;
+  color: var(--aa-burgundy);
+}
+
+/* Cursor-following preview of each line's first photograph. */
+.preview {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: var(--aa-z-fore);
+  width: 15rem;
+  pointer-events: none;
+}
+
+.previewItem {
+  position: absolute;
+  left: 1.5rem;
+  top: -6rem;
+  width: 15rem;
+  opacity: 0;
+  transform: scale(0.9) rotate(-3deg);
+  transition:
+    opacity 0.35s ease,
+    transform 0.6s var(--aa-ease-out);
+}
+
+.previewItem img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 18rem;
+  object-fit: cover;
+}
+
+.previewWord {
+  padding: 1.2rem;
+  background: var(--aa-black);
+  color: var(--aa-ivory);
+  font-family: var(--aa-serif);
+  font-size: 1.6rem;
+  font-style: italic;
+}
+
+.preview[data-active="0"] .previewItem[data-i="0"],
+.preview[data-active="1"] .previewItem[data-i="1"],
+.preview[data-active="2"] .previewItem[data-i="2"],
+.preview[data-active="3"] .previewItem[data-i="3"],
+.preview[data-active="4"] .previewItem[data-i="4"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─── Scenes (flow layout by default) ─── */
+
+.stage {
+  position: relative;
+  color: var(--aa-ivory);
+}
+
+.door {
+  position: relative;
+}
+
+.wipe {
+  display: none;
+}
+
+.scene {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: clamp(5rem, 14vw, 8rem) var(--aa-gutter) clamp(4rem, 10vw, 6rem);
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.glowLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(70% 60% at 78% 30%, color-mix(in srgb, var(--glow) 38%, transparent), transparent 70%);
+}
+
+.depth {
+  position: relative;
+  display: flex;
+  gap: 0.9rem;
+  margin: 2.2rem calc(var(--aa-gutter) * -1) 2.4rem;
+  padding: 0 var(--aa-gutter);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  order: 2;
+}
+
+.depth::-webkit-scrollbar {
+  display: none;
+}
+
+.slate {
+  display: none;
+}
+
+.slot {
+  flex: 0 0 auto;
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.slot img {
+  display: block;
+  width: auto;
+  height: min(52svh, 26rem);
+  max-width: min(78vw, var(--cap, 100vw));
+  object-fit: cover;
+}
+
+.word {
+  display: flex;
+  align-items: center;
+  padding: 0 0.4rem;
+  font-size: clamp(2.2rem, 9vw, 4rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+
+.wordOutline {
+  color: transparent;
+  -webkit-text-stroke: 1px currentColor;
+}
+
+.scene[data-id="dce"] .wordOutline {
+  -webkit-text-stroke-color: var(--fg);
+}
+
+.col {
+  position: relative;
+  order: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.head {
+  transform-origin: 0% 0%;
+}
+
+.index {
+  display: flex;
+  gap: 1.4rem;
+  margin: 0 0 1.4rem;
+  opacity: 0.7;
+}
+
+.title {
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(3.2rem, 13vw, 5.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.055em;
+}
+
+.titleLine {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+
+.titleLine > span {
+  display: block;
+}
+
+.role {
+  margin: 1.4rem 0 1rem;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tags li {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius: 999px;
+}
+
+.body {
+  display: grid;
+  margin-top: 1.8rem;
+}
+
+.lead {
+  max-width: 34rem;
+  margin: 0;
+  font-family: var(--aa-serif);
+  font-size: clamp(1.3rem, 4.8vw, 1.7rem);
+  line-height: 1.22;
+}
+
+.details {
+  margin-top: 1.8rem;
+}
+
+.stat {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin: 0 0 1.4rem;
+}
+
+.stat strong {
+  font-family: var(--aa-serif);
+  font-weight: 400;
+  font-size: clamp(4rem, 8vw, 7rem);
+  line-height: 0.8;
+  color: var(--aa-coral);
+}
+
+.scene[data-id="choiseul"] .stat strong {
+  color: var(--aa-ivory);
+}
+
+.stat span {
+  max-width: 18rem;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.missions {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 36rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.missions li {
+  display: grid;
+  grid-template-columns: 2.2rem 1fr;
+  gap: 0.4rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.missions li > span:first-child {
+  padding-top: 0.2em;
+  opacity: 0.55;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.4rem 0 0;
+}
+
+.chips > span:first-child {
+  margin-right: 0.4rem;
+  opacity: 0.6;
+}
+
+.chip {
+  padding: 0.4rem 0.7rem;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  border-radius: 999px;
+}
+
+/* Rail — only meaningful on the stage. */
+.rail {
+  display: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Stage layout
+   ───────────────────────────────────────────────────────────── */
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .stage {
+    height: 100svh;
+    min-height: 640px;
+    overflow: hidden;
+    background: var(--aa-ivory);
+  }
+
+  .door {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: var(--aa-night);
+    will-change: clip-path;
+  }
+
+  .wipe {
+    display: block;
+    position: absolute;
+    inset: 0;
+    will-change: clip-path;
+  }
+
+  .scene {
+    position: absolute;
+    inset: 0;
+    padding: 0;
+    background: none;
+    color: inherit;
+  }
+
+  .glowLayer {
+    opacity: 0.9;
+  }
+
+  /* Each scene is its own 3D field; the vanishing point follows the cursor. */
+  .depth {
+    position: absolute;
+    inset: 0;
+    display: block;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    perspective: 1100px;
+    perspective-origin: 62% 45%;
+  }
+
+  .slate {
+    display: block;
+    position: absolute;
+    right: -2vw;
+    bottom: -6vh;
+    margin: 0;
+    font-size: 58vh;
+    font-weight: 500;
+    line-height: 0.8;
+    letter-spacing: -0.07em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px color-mix(in srgb, currentColor 16%, transparent);
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .slot {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--w);
+    will-change: transform, opacity;
+  }
+
+  .slot img {
+    width: 100%;
+    height: auto;
+    max-width: none;
+    box-shadow: 0 2.5rem 5rem -1.5rem rgb(0 0 0 / 0.55);
+  }
+
+  .word {
+    width: auto;
+    padding: 0;
+    font-size: clamp(2.6rem, 4.8vw, 5.6rem);
+  }
+
+  .col {
+    position: absolute;
+    left: 6vw;
+    top: 14svh;
+    bottom: 12svh;
+    width: 40vw;
+    z-index: 2;
+  }
+
+  .title {
+    font-size: clamp(4rem, 8.2vw, 9.5rem);
+  }
+
+  .role {
+    font-size: 1.1rem;
+  }
+
+  .lead {
+    font-size: clamp(1.35rem, 1.75vw, 1.85rem);
+  }
+
+  .body > * {
+    grid-area: 1 / 1;
+  }
+
+  /* Long mission lists take the width the receding photos leave. */
+  .scene[data-long] .details {
+    width: 54vw;
+  }
+
+  .scene[data-long] .missions {
+    grid-template-columns: 1fr 1fr;
+    max-width: none;
+    column-gap: 2.2rem;
+  }
+
+  .scene[data-id="dce"] .title {
+    font-size: clamp(3.6rem, 6.6vw, 7.6rem);
+  }
+
+  .details {
+    margin-top: 0;
+  }
+
+  .missions li {
+    font-size: clamp(0.82rem, 0.95vw, 0.98rem);
+    padding-top: clamp(0.4rem, 1.1svh, 0.75rem);
+  }
+
+  .missions {
+    gap: clamp(0.4rem, 1.1svh, 0.75rem);
+  }
+
+  /* Running order along the bottom of the stage. */
+  .rail {
+    display: block;
+    position: absolute;
+    left: 6vw;
+    right: 6vw;
+    bottom: 4svh;
+    z-index: 5;
+  }
+
+  .rail ol {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .railItem {
+    --p: 0;
+    display: grid;
+    gap: 0.6rem;
+    width: 100%;
+    text-align: left;
+    opacity: 0.45;
+    transition: opacity 0.4s ease;
+  }
+
+  .railItem[data-state="on"],
+  .railItem:hover,
+  .railItem:focus-visible {
+    opacity: 1;
+  }
+
+  .railBar {
+    position: relative;
+    height: 1px;
+    background: color-mix(in srgb, currentColor 25%, transparent);
+    overflow: hidden;
+  }
+
+  .railBar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: currentColor;
+    transform: scaleX(var(--p));
+    transform-origin: 0 50%;
+  }
+
+  .railItem[data-state="done"] .railBar::after {
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 767px) {
+  .lineupRow {
+    grid-template-columns: 2rem 1fr;
+    gap: 0.3rem 0.8rem;
+  }
+
+  .lineupRole,
+  .lineupRow > span:last-child {
+    grid-column: 2;
+  }
+}

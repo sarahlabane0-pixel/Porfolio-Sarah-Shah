@@ -4,6 +4,8 @@
 // real missions and tools, no invented results. Disney has only the confirmed
 // title and dates, so its copy stays restrained rather than filling gaps.
 
+import { media, type Media } from "./media";
+
 export type Experience = {
   id: string;
   company: string;
@@ -14,6 +16,12 @@ export type Experience = {
   tools?: string[];
   keywords?: string[];
   photos: { src: string | null; alt: string; placeholderLabel?: string }[];
+  /** ALL ACCESS site: what the scene is about, in three words or so. Summarises the missions below, adds nothing. */
+  tags: string[];
+  /** ALL ACCESS site: photos with real dimensions, in display order. */
+  media: Media[];
+  /** A verified figure from Sarah's CV, if the scene has one. */
+  stat?: { value: string; label: string };
 };
 
 export const experiences: Experience[] = [
@@ -33,6 +41,9 @@ export const experiences: Experience[] = [
       "Participation aux événements du Groupe — kick-off, Summer Party, séminaires, formats digitaux.",
     ],
     tools: ["Sprout Social", "Excel", "Meltwater"],
+    tags: ["Communication corporate", "LinkedIn Groupe", "Prises de parole"],
+    media: [media.adeccoOffice, media.adeccoKickoff, media.adeccoStage],
+    stat: { value: "5", label: "dirigeants, experts et collaborateurs accompagnés dans leurs prises de parole" },
     photos: [
       { src: "/assets/adecco/kickoff-01.jpg", alt: "Kick-off The Adecco Group" },
       { src: "/assets/adecco/kickoff-02.jpg", alt: "The Adecco Group, prise de parole sur scène" },
@@ -51,6 +62,8 @@ export const experiences: Experience[] = [
       "Organisation et coordination d'événements internes et clients — Summer Party, Noël, Radio Classique, Journée internationale des droits des femmes.",
       "Communication événementielle avant, pendant et après les événements — invitations, valorisation des temps forts, couverture, communication post-événement.",
     ],
+    tags: ["Communication multicanale", "Événementiel", "Contenus"],
+    media: [media.ketilInterview, media.ketilTheatre, media.ketilStudio, media.ketilAccueil, media.ketilTeam],
     photos: [
       { src: "/assets/ketil/event-theatre-01.jpg", alt: "Salle de spectacle, événement Ketil Media" },
       { src: "/assets/ketil/studio-02.jpg", alt: "Studio #KTAC, Ketil Media" },
@@ -72,6 +85,8 @@ export const experiences: Experience[] = [
       "Participation à la conception de brochures, kakémonos et supports de communication.",
       "Communication événementielle avant, pendant et après les événements, et reportings post-événement.",
     ],
+    tags: ["Événementiel institutionnel", "Logistique", "Jour J"],
+    media: [media.choiseulNetworking, media.choiseulConference],
     photos: [
       { src: "/assets/choiseul/conference-2024-06-03.jpg", alt: "Conférence Institut Choiseul, 3 juin 2024" },
       { src: "/assets/choiseul/networking-01.jpg", alt: "Temps d'échange entre invités, Institut Choiseul" },
@@ -94,6 +109,8 @@ export const experiences: Experience[] = [
       "Recherche iconographique via des banques d'images comme Shutterstock.",
     ],
     keywords: ["Content Manager", "WordPress / Drupal", "Interviews", "Iconographie"],
+    tags: ["Contenu éditorial", "CMS", "Clients"],
+    media: [],
     photos: [],
   },
   {
@@ -104,6 +121,8 @@ export const experiences: Experience[] = [
     standfirst:
       "Une première immersion, pas encore dans la communication, mais déjà dans la gestion de flux, la relation aux visiteurs et un univers entièrement pensé comme une expérience. Ce qui s'y apprend sur le rythme d'une foule reste, depuis, une référence silencieuse.",
     missions: [],
+    tags: ["Relation visiteurs", "Gestion de flux", "Expérience"],
+    media: [media.disneyCastle, media.disneyParade],
     photos: [
       { src: "/assets/disney/pier-01.jpg", alt: "Disneyland Paris au crépuscule" },
       { src: "/assets/disney/parade-01.jpg", alt: "Spectacle Disneyland Paris" },

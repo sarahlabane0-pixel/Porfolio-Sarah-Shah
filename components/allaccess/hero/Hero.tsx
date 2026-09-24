@@ -519,10 +519,10 @@ export function Hero({ ready }: { ready: boolean }) {
 
                     <div className={s.panelWrap}>
                       <div className={`${s.glass} ${s.panel}`}>
-                        <span className={`${s.panelEtch} ${s.panelEtchTop} aa-micro`}>LX 04 / Cue 12</span>
-                        <span className={`${s.panelEtch} ${s.panelEtchV} aa-micro`}>All access — SS/26 — Backstage</span>
+                        <span className={`${s.panelEtch} ${s.panelEtchTop} aa-micro`}>All access</span>
+                        <span className={`${s.panelEtch} ${s.panelEtchV} aa-micro`}>Backstage — Portfolio 2026</span>
                         <span className={`${s.panelEtch} ${s.panelEtchBottom} aa-micro`}>
-                          <i /> Zone A
+                          <i /> Entry
                         </span>
                       </div>
                     </div>
@@ -530,13 +530,13 @@ export function Hero({ ready }: { ready: boolean }) {
                     <div className={`${s.glass} ${s.shard}`} />
 
                     <p className={`${s.code} aa-micro`} style={{ left: "90%", top: "2.5%" }}>
-                      Spot A — 3200K
+                      Backstage
                     </p>
                     <p className={`${s.code} aa-micro`} style={{ left: "1%", top: "13%" }}>
-                      Cue 01
+                      Entry
                     </p>
                     <p className={`${s.code} aa-micro`} style={{ left: "2%", top: "73%" }}>
-                      LX 04 / Zone B
+                      Paris / FR
                     </p>
                     <span className={s.mark} style={{ left: "22%", top: "5%" }} />
                     <span className={s.mark} style={{ left: "86%", top: "47%" }} />
@@ -603,11 +603,11 @@ export function Hero({ ready }: { ready: boolean }) {
         <span className={s.tick} />
         <span className={s.tick} />
         <p className={`${s.frameTag} aa-micro`}>
-          <span>SS — 001</span>
+          <span>Sarah Shah</span>
           <span>{identity.city}</span>
         </p>
         <p className={`${s.frameCaption} aa-micro`}>
-          <span>Sarah Shah</span>
+          <span>Portfolio 2026</span>
           <span>All access</span>
         </p>
       </div>

@@ -5,10 +5,17 @@ import { Loader } from "@/components/allaccess/loader/Loader";
 import { AccessNav } from "@/components/allaccess/nav/AccessNav";
 import { AccessCursor } from "@/components/allaccess/cursor/AccessCursor";
 import { Hero } from "@/components/allaccess/hero/Hero";
-import { AfterEntry } from "@/components/allaccess/after/AfterEntry";
+import { Programme } from "@/components/allaccess/programme/Programme";
+import { Work } from "@/components/allaccess/work/Work";
+import { Skills } from "@/components/allaccess/skills/Skills";
+import { Postcards } from "@/components/allaccess/postcards/Postcards";
+import { Spaces } from "@/components/allaccess/spaces/Spaces";
+import { Movement } from "@/components/allaccess/movement/Movement";
+import { Contact } from "@/components/allaccess/contact/Contact";
 
-// ALL ACCESS — hero prototype. Only the entrance is built; the chapters
-// that follow are designed after this one is reviewed.
+// ALL ACCESS — the portfolio as one continuous event, in acts:
+// entrance (loader, hero) → programme → 01 Work → 02 Skills → interlude and
+// 03 Postcards → 04 Spaces → 05 Movement → 06 Contact.
 export default function Home() {
   const [ready, setReady] = useState(false);
   const open = useCallback(() => setReady(true), []);
@@ -26,7 +33,13 @@ export default function Home() {
       <AccessCursor />
       <main>
         <Hero ready={ready} />
-        <AfterEntry />
+        <Programme />
+        <Work />
+        <Skills />
+        <Postcards />
+        <Spaces />
+        <Movement />
+        <Contact />
       </main>
     </div>
   );

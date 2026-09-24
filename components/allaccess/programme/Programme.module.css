@@ -1,0 +1,146 @@
+/* 00 — PROGRAMME: Sarah's four worlds as the running order. Hovering a
+   column raises its photograph from the floor of the column. */
+
+.programme {
+  padding: clamp(6rem, 12vw, 10rem) var(--aa-gutter) clamp(3rem, 6vw, 5rem);
+  background: var(--aa-ivory);
+  color: var(--aa-black);
+}
+
+.kicker {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin: 0 0 clamp(2rem, 4vw, 3rem);
+  color: color-mix(in srgb, var(--aa-black) 55%, transparent);
+}
+
+.kicker span:last-child {
+  max-width: 34rem;
+  text-align: right;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 0.8rem;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid color-mix(in srgb, var(--aa-black) 16%, transparent);
+}
+
+.item + .item {
+  border-left: 1px solid color-mix(in srgb, var(--aa-black) 16%, transparent);
+}
+
+.link {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+  height: 100%;
+  min-height: min(56svh, 30rem);
+  padding: 1.4rem 1.2rem 1.6rem;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.cover {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0.9s var(--aa-ease-out);
+}
+
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.12);
+  transition: transform 1.4s var(--aa-ease-out);
+}
+
+.cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--aa-black) 55%, transparent), color-mix(in srgb, var(--aa-black) 20%, transparent));
+}
+
+.index {
+  color: color-mix(in srgb, currentColor 60%, transparent);
+}
+
+.label {
+  font-size: clamp(1.5rem, 2.4vw, 2.4rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.text {
+  max-width: 22rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, currentColor 75%, transparent);
+}
+
+.link:hover,
+.link:focus-visible {
+  color: var(--aa-ivory);
+}
+
+.link:hover .cover,
+.link:focus-visible .cover {
+  clip-path: inset(0 0 0 0);
+}
+
+.link:hover .cover img,
+.link:focus-visible .cover img {
+  transform: none;
+}
+
+@media (max-width: 1023px) {
+  .list {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .item:nth-child(3) {
+    border-left: none;
+  }
+
+  .item:nth-child(n + 3) {
+    border-top: 1px solid color-mix(in srgb, var(--aa-black) 16%, transparent);
+  }
+
+  .link {
+    min-height: 16rem;
+  }
+
+  .kicker {
+    flex-direction: column;
+  }
+
+  .kicker span:last-child {
+    text-align: left;
+  }
+}
+
+@media (max-width: 560px) {
+  .list {
+    grid-template-columns: 1fr;
+  }
+
+  .item + .item {
+    border-left: none;
+    border-top: 1px solid color-mix(in srgb, var(--aa-black) 16%, transparent);
+  }
+
+  .link {
+    min-height: 0;
+  }
+}

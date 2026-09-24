@@ -1,0 +1,242 @@
+/* 03 — POSTCARDS
+   A breath (Sarah's lines, read in the margin of the page), then a table of
+   postcards: small by design — travel is an interlude, and the source photos
+   are small, so the cards are sized to what the files can hold. */
+
+.postcards {
+  position: relative;
+  background: var(--aa-ivory);
+  color: var(--aa-black);
+  overflow: clip;
+}
+
+/* ─── Breath ─── */
+
+.breath {
+  padding: clamp(7rem, 16vw, 13rem) var(--aa-gutter) clamp(4rem, 8vw, 7rem);
+}
+
+.breathKicker {
+  margin: 0 0 2rem;
+  color: color-mix(in srgb, var(--aa-black) 50%, transparent);
+}
+
+.breathText {
+  margin: 0;
+  max-width: 25ch;
+  font-family: var(--aa-serif);
+  font-size: clamp(1.9rem, 4.4vw, 4.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+}
+
+.breathLine {
+  display: block;
+}
+
+.breathLine:nth-child(even) {
+  padding-left: clamp(1.5rem, 9vw, 9rem);
+}
+
+.breathLine:last-child {
+  font-style: italic;
+  color: var(--aa-burgundy);
+}
+
+/* ─── Board ─── */
+
+.board {
+  position: relative;
+  height: max(118svh, 820px);
+  margin-top: clamp(2rem, 6vw, 5rem);
+}
+
+.head {
+  position: absolute;
+  left: var(--aa-gutter);
+  top: 4%;
+  max-width: min(34rem, 44vw);
+  z-index: 1;
+}
+
+.kicker {
+  margin: 0 0 1.3rem;
+  color: color-mix(in srgb, var(--aa-black) 55%, transparent);
+}
+
+.title {
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(2.8rem, 6.2vw, 6.6rem);
+  line-height: 0.9;
+  letter-spacing: var(--aa-track-tight);
+}
+
+.title em {
+  display: block;
+  font-family: var(--aa-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--aa-burgundy);
+}
+
+.hint {
+  margin: 1.6rem 0 0;
+  color: color-mix(in srgb, var(--aa-black) 45%, transparent);
+}
+
+.fragment {
+  position: absolute;
+  color: color-mix(in srgb, var(--aa-black) 40%, transparent);
+  pointer-events: none;
+}
+
+.fragment:nth-of-type(1) { left: 38%; top: 30%; }
+.fragment:nth-of-type(2) { left: 92%; top: 40%; }
+.fragment:nth-of-type(3) { left: 40%; top: 92%; }
+.fragment:nth-of-type(4) { left: 6%; top: 46%; }
+.fragment:nth-of-type(5) { left: 88%; top: 94%; }
+
+.cards {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.par {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+  will-change: transform;
+}
+
+.card {
+  position: relative;
+  margin: 0;
+  padding: 0.55rem 0.55rem 0.8rem;
+  background: #fbf8f3;
+  box-shadow: 0 1.2rem 2.2rem -1rem rgb(13 11 12 / 0.35);
+  touch-action: pan-y;
+  user-select: none;
+  cursor: grab;
+}
+
+.card:active {
+  cursor: grabbing;
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.missing {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  aspect-ratio: 4 / 5;
+  padding: 0.8rem;
+  border: 1px dashed color-mix(in srgb, var(--aa-black) 40%, transparent);
+  background: repeating-linear-gradient(135deg, transparent 0 10px, color-mix(in srgb, var(--aa-black) 5%, transparent) 10px 11px);
+  color: color-mix(in srgb, var(--aa-black) 70%, transparent);
+}
+
+.card figcaption {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+}
+
+.card figcaption > span:first-child {
+  font-size: 0.56rem;
+}
+
+.line {
+  font-family: var(--aa-serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.15;
+}
+
+.stamp {
+  position: absolute;
+  right: 0.9rem;
+  top: 0.9rem;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid color-mix(in srgb, var(--aa-ivory) 80%, transparent);
+  border-radius: 50%;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--aa-ivory);
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+/* The blank card that becomes the next scene. */
+.nextWrap {
+  position: absolute;
+  left: 50%;
+  bottom: -2%;
+  z-index: 50;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.next {
+  display: grid;
+  place-items: center;
+  width: clamp(9rem, 14vw, 13rem);
+  aspect-ratio: 3 / 4;
+  background: var(--aa-night);
+  color: var(--aa-ivory);
+  box-shadow: 0 1.5rem 3rem -1rem rgb(13 11 12 / 0.45);
+  will-change: transform;
+}
+
+/* ─── Small screens: a loose two-column collage, no dragging. ─── */
+
+@media (max-width: 767px) {
+  .board {
+    height: auto;
+    padding: 0 var(--aa-gutter) 16rem;
+  }
+
+  .head {
+    position: relative;
+    left: 0;
+    max-width: none;
+    margin-bottom: 2.5rem;
+  }
+
+  .fragment {
+    display: none;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.6rem 1rem;
+  }
+
+  .par {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+  }
+
+  .par:nth-child(even) {
+    margin-top: 3rem;
+  }
+
+  .nextWrap {
+    bottom: 3rem;
+  }
+}

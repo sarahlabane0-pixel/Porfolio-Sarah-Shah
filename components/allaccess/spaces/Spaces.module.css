@@ -1,0 +1,275 @@
+/* 04 — SPACES
+   A pinned WebGL stage (the line architecture), then a calm ivory spread:
+   Sarah's Niemeyer text and the places she has observed. */
+
+.spaces {
+  position: relative;
+  background: var(--aa-ivory);
+}
+
+.stage {
+  position: relative;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  color: var(--aa-ivory);
+  background:
+    radial-gradient(80% 70% at 60% 60%, color-mix(in srgb, var(--aa-burgundy) 55%, transparent), transparent 70%),
+    var(--aa-night);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  left: var(--aa-gutter);
+  top: calc(5.5rem + var(--aa-safe-top));
+  max-width: 22rem;
+  pointer-events: none;
+}
+
+.kicker {
+  margin: 0 0 1.1rem;
+  color: var(--aa-ivory-60);
+}
+
+.place {
+  margin: 0;
+  font-family: var(--aa-serif);
+  font-style: italic;
+  font-size: clamp(1.8rem, 2.8vw, 2.8rem);
+  line-height: 1;
+}
+
+.note {
+  margin: 1rem 0 0;
+  color: var(--aa-ivory-30);
+  line-height: 1.6;
+}
+
+/* Words in the DOM for assistive tech and as the no-WebGL fallback; hidden
+   visually while the 3D scene carries them. */
+.fallbackTitle {
+  position: absolute;
+  left: var(--aa-gutter);
+  right: var(--aa-gutter);
+  bottom: 18%;
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(3rem, 9vw, 9rem);
+  line-height: 0.9;
+  letter-spacing: var(--aa-track-tight);
+  text-transform: uppercase;
+}
+
+.fallbackTitle em {
+  font-style: normal;
+  color: var(--aa-coral);
+}
+
+.stage[data-gl="on"] .fallbackTitle,
+.stage[data-gl="pending"] .fallbackTitle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.steps {
+  position: absolute;
+  left: var(--aa-gutter);
+  bottom: calc(2rem + var(--aa-safe-bottom));
+  display: flex;
+  gap: 1.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  color: var(--aa-ivory-30);
+  transition: color 0.5s ease;
+}
+
+.step span {
+  margin-right: 0.4em;
+}
+
+.step[data-on="true"] {
+  color: var(--aa-ivory);
+}
+
+.step[data-on="true"]:last-child span {
+  color: var(--aa-coral);
+}
+
+.stage[data-gl="off"] .steps {
+  display: none;
+}
+
+/* ─── Calm spread ─── */
+
+.calm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2.5rem, 6vw, 6rem) clamp(2rem, 6vw, 7rem);
+  padding: clamp(6rem, 12vw, 11rem) var(--aa-gutter) clamp(5rem, 10vw, 9rem);
+  color: var(--aa-black);
+}
+
+.kickerDark {
+  margin: 0 0 1.4rem;
+  color: color-mix(in srgb, var(--aa-black) 55%, transparent);
+}
+
+.calmTitle,
+.curiosityTitle {
+  margin: 0 0 1.6rem;
+  font-weight: 500;
+  font-size: clamp(2.2rem, 4.2vw, 4.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.curiosityTitle {
+  font-family: var(--aa-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--aa-burgundy);
+}
+
+.para {
+  max-width: 34rem;
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Expanding panels. */
+.panels {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 0.6rem;
+  height: min(62svh, 34rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.panel {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  transition: flex-grow 0.8s var(--aa-ease-out);
+}
+
+.panel[data-open="true"] {
+  flex-grow: 4.2;
+}
+
+.panelBtn {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  background: var(--aa-black);
+}
+
+.panelImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.75;
+  transform: scale(1.06);
+  transition:
+    opacity 0.6s ease,
+    transform 1.2s var(--aa-ease-out);
+}
+
+.panel[data-open="true"] .panelImg {
+  opacity: 1;
+  transform: none;
+}
+
+.panelLabel {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  display: flex;
+  gap: 0.8rem;
+  align-items: baseline;
+  color: var(--aa-ivory);
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 12px rgb(0 0 0 / 0.5);
+  white-space: nowrap;
+}
+
+.panel:not([data-open="true"]) .panelLabel > span:last-child {
+  display: none;
+}
+
+.panelNote {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  max-width: 19rem;
+  margin: 0;
+  padding: 0.9rem 1rem;
+  background: color-mix(in srgb, var(--aa-ivory) 92%, transparent);
+  color: var(--aa-black);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.4s ease 0.2s,
+    transform 0.6s var(--aa-ease-out) 0.2s;
+  pointer-events: none;
+}
+
+.panel[data-open="true"] .panelNote {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 1023px) {
+  .calm {
+    grid-template-columns: 1fr;
+  }
+
+  .panels {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .panel {
+    flex: none;
+    height: 4.5rem;
+    transition: height 0.7s var(--aa-ease-out);
+  }
+
+  .panel[data-open="true"] {
+    height: min(70svh, 30rem);
+  }
+
+  .panelNote {
+    left: 1rem;
+    right: auto;
+  }
+}

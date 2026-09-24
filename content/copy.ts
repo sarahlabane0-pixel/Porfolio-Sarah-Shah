@@ -64,7 +64,7 @@ export const mondes = {
       id: "projets",
       label: "Projets professionnels",
       href: "#parcours",
-      text: "Adecco, Ketil Media, Institut Choiseul, Disneyland Paris. Quatre terrains, une même exigence.",
+      text: "Adecco, Ketil Media, Institut Choiseul, Digital Content Expert, Disneyland Paris. Cinq terrains, une même exigence.",
       image: "/assets/ketil/event-theatre-01.jpg",
     },
     {

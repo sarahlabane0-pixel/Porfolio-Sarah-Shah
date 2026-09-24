@@ -58,8 +58,31 @@ html[data-aa-theme="light"] .nav {
 }
 
 .chapter {
+  position: relative;
   color: var(--nav-dim);
-  transition: color 0.6s ease;
+  transition: color 0.4s ease;
+}
+
+.chapter:hover,
+.chapter:focus-visible,
+.chapter[aria-current="true"] {
+  color: var(--nav-fg);
+}
+
+.chapter[aria-current="true"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.55rem;
+  height: 1px;
+  background: var(--aa-coral);
+}
+
+.current {
+  display: none;
+  margin: 0;
+  color: var(--nav-fg);
 }
 
 .chapter b {
@@ -109,7 +132,14 @@ html[data-aa-theme="light"] .nav {
     display: none;
   }
 
-  .nav {
-    grid-template-columns: 1fr auto;
+  .current {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand .aa-micro,
+  .brand > span:last-child {
+    display: none;
   }
 }
