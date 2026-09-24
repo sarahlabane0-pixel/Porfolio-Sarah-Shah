@@ -12,12 +12,12 @@ import { Postcards } from "@/components/allaccess/postcards/Postcards";
 import { Spaces } from "@/components/allaccess/spaces/Spaces";
 import { Movement } from "@/components/allaccess/movement/Movement";
 import { Contact } from "@/components/allaccess/contact/Contact";
-import type { Media } from "@/content/media";
+import type { NiemeyerPhoto } from "@/lib/niemeyerPhotos";
 
 // ALL ACCESS — the portfolio as one continuous event, in acts:
 // entrance (loader, hero) → programme → 01 Work → 02 Skills → interlude and
 // 03 Postcards → 04 Spaces → 05 Movement → 06 Contact.
-export function Home({ niemeyerPhotos }: { niemeyerPhotos: Media[] }) {
+export function Home({ niemeyerPhotos }: { niemeyerPhotos: NiemeyerPhoto[] }) {
   const [ready, setReady] = useState(false);
   const open = useCallback(() => setReady(true), []);
 

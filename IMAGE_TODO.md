@@ -75,33 +75,22 @@ Extracted from Sarah's own PDFs (original embedded bytes, no upscaling):
 |---|---|---|
 | Postcards | "Image à fournir — Marrakech" card | A photo of Marrakech (Jemaa el-Fna, La Mamounia…). The blue-street photo is **Chefchaouen**, not Marrakech, and is not used |
 | Postcards | "Image à fournir — New York" card | A personal New York photo (Brooklyn street art, Broadway…). `new-york-liberty-empire-state.jpg` looks like a composite/stock view and is **not used** |
-| Spaces (3D + gallery) | "Photographie à fournir" frames | Your Espace Niemeyer photos — see the Niemeyer section below |
 
-## Espace Niemeyer — photos not received
+## Espace Niemeyer — photographs
 
-**None of the files available to me contains a photo of Espace Niemeyer.**
-Checked: the CV (it only names the place in the interests line), the About
-Me deck (7 pages), Portfolio 2025 (9 pages), the SEP dossier (25 pages), the
-images attached in the conversation (three portrait files only), the repo, its
-history and every branch.
+Supplied by Sarah in the conversation (1500×2000 each), stored byte-for-byte
+in `public/assets/places/niemeyer/`:
 
-The chapter is wired to pick your photos up automatically. Put them here:
+| File | Shows | Used for |
+|---|---|---|
+| `niemeyer-01-foyer.webp` | the foyer: green carpet, armchairs, curved board-formed concrete | the photograph in the 3D picture plane (the lines are drawn over it, then extruded); gallery |
+| `niemeyer-02-coupole.webp` | the chamber under the dome, ceiling of blades | the arrival: the 3D dome opens onto it, "I COLLECT SPACES." over it; gallery |
 
-    public/assets/places/niemeyer/
-
-Any .jpg / .jpeg / .png / .webp / .avif in that folder is read at build time
-(sorted by file name, real dimensions via sharp — `lib/niemeyerPhotos.ts`):
-
-- the **first** file becomes the photograph the 3D lines extrude from, and
-  stays visible behind the architecture. Ideally a frontal / elevation view,
-  landscape, ≥ 2400 px wide.
-- **every** file is shown, large, in the "Le lieu, en vrai." gallery right
-  after the 3D moment.
-
-Suggested: `niemeyer-01-facade.jpg` (frontal), `niemeyer-02-dome.jpg`,
-`niemeyer-03-interior.jpg`, then any others. Until then the plane and the
-gallery show clearly labelled "Photographie à fournir" frames. The pipeline
-was tested end to end with temporary images, which were then removed.
+Any further file dropped in that folder is picked up at build time (sorted by
+name, real dimensions via sharp — `lib/niemeyerPhotos.ts`) and added to the
+gallery. Captions come from the file name (`foyer`, `coupole`); unknown names
+get none. A landscape frontal view of the building (≥ 2400 px), if you have
+one, would make an even better first photo for the picture plane.
 
 ## Higher-resolution files needed (for a truly premium result)
 

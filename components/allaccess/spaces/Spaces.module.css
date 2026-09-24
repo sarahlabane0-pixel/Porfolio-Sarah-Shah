@@ -363,3 +363,122 @@
     right: auto;
   }
 }
+
+/* ─── Arrival: the 3D dome opens onto the real photograph ─── */
+
+.reveal {
+  --r: 0%;
+  --k: 0;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.reveal[data-open="true"] {
+  visibility: visible;
+}
+
+.revealFrame {
+  position: relative;
+  width: min(88vw, var(--cap));
+  height: min(82svh, 52rem);
+  margin: 0;
+  overflow: hidden;
+  clip-path: circle(var(--r) at 50% 58%);
+  box-shadow: 0 3rem 6rem -2rem rgb(0 0 0 / 0.55);
+}
+
+.revealImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 44%;
+  transform: scale(calc(1.18 - var(--k) * 0.18));
+}
+
+.revealFrame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--aa-green-ink) 70%, transparent) 100%);
+}
+
+.revealCaption {
+  position: absolute;
+  left: 1.4rem;
+  right: 1.4rem;
+  bottom: 1.2rem;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: color-mix(in srgb, var(--aa-ivory) 85%, transparent);
+  opacity: var(--k);
+}
+
+.revealTitle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: 0;
+  transform: translate(-50%, -50%);
+  font-weight: 500;
+  font-size: clamp(2.4rem, 7.4vw, 8rem);
+  line-height: 0.9;
+  letter-spacing: var(--aa-track-tight);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--aa-ivory);
+  text-shadow: 0 0.4rem 3rem rgb(7 23 15 / 0.55);
+  opacity: calc((var(--k) - 0.4) * 1.7);
+}
+
+.revealTitle em {
+  font-style: normal;
+  color: var(--aa-coral);
+}
+
+.stage[data-gl="off"] .reveal {
+  visibility: visible;
+}
+
+/* ─── Gallery captions ─── */
+
+.shotFigure {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.shotFigure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shotFigure figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2.4rem 1.1rem 1rem;
+  color: var(--aa-ivory);
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--aa-green-ink) 75%, transparent));
+}
+
+@media (max-width: 767px) {
+  .revealFrame {
+    height: 70svh;
+  }
+
+  .revealTitle {
+    font-size: clamp(1.8rem, 9vw, 3rem);
+  }
+}

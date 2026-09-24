@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { curiosity, niemeyer, spaces } from "@/content/allaccess";
-import { media, type Media } from "@/content/media";
+import { media } from "@/content/media";
+import type { NiemeyerPhoto } from "@/lib/niemeyerPhotos";
 import { webglAvailable } from "../hero/PortraitGL";
 import { Photo, sharpWidth } from "../Photo";
 import s from "./Spaces.module.css";
@@ -13,12 +14,15 @@ import s from "./Spaces.module.css";
  * public/assets/places/niemeyer/ (see lib/niemeyerPhotos.ts). The first one
  * is the picture the 3D lines are pulled out of; all of them get the gallery.
  */
-export function Spaces({ photos }: { photos: Media[] }) {
+export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
   const root = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const trackRef = useRef<HTMLUListElement>(null);
   const first = photos[0];
+  // The 3D journey ends inside the dome, and opens onto the real place.
+  const arrival = photos[1] ?? photos[0];
+  const revealRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(0);
 
   useEffect(() => {
@@ -30,8 +34,21 @@ export function Spaces({ photos }: { photos: Media[] }) {
     const lite = !window.matchMedia("(min-width: 1024px)").matches;
     const steps = Array.from(stage.querySelectorAll<HTMLElement>(`.${s.step}`));
 
+    const reveal = revealRef.current;
+    // Opening onto the photograph: a circle from the dome's centre, the
+    // photo settling as it opens, the words over the real place.
+    const setReveal = (p: number) => {
+      if (!reveal) return;
+      const r = gsap.utils.clamp(0, 1, (p - 0.8) / 0.16);
+      const e = r * r * (3 - 2 * r);
+      reveal.style.setProperty("--r", `${(e * 78).toFixed(2)}%`);
+      reveal.style.setProperty("--k", e.toFixed(3));
+      reveal.dataset.open = String(e > 0.001);
+    };
+
     if (!webglAvailable()) {
       stage.dataset.gl = "off";
+      setReveal(1);
       return;
     }
 
@@ -73,6 +90,7 @@ export function Spaces({ photos }: { photos: Media[] }) {
         // One still composition: volume, light and the words.
         gl.setProgress(0.9);
         gl.render(0);
+        setReveal(1);
         gsap.ticker.add(tick);
         return;
       }
@@ -80,7 +98,7 @@ export function Spaces({ photos }: { photos: Media[] }) {
       st = ScrollTrigger.create({
         trigger: stage,
         start: "top top",
-        end: lite ? "+=240%" : "+=320%",
+        end: lite ? "+=300%" : "+=400%",
         pin: true,
         scrub: 1,
         anticipatePin: 1,
@@ -89,6 +107,7 @@ export function Spaces({ photos }: { photos: Media[] }) {
           const k = self.progress < 0.3 ? 0 : self.progress < 0.62 ? 1 : 2;
           steps.forEach((n, i) => (n.dataset.on = String(i <= k)));
           stage.dataset.words = String(self.progress > 0.7);
+          setReveal(self.progress);
         },
       });
       window.addEventListener("pointermove", onMove, { passive: true });
@@ -149,6 +168,20 @@ export function Spaces({ photos }: { photos: Media[] }) {
           <p className={s.place}>{spaces.place}</p>
           <p className={`${s.note} aa-micro`}>{spaces.note}</p>
         </header>
+        {arrival && (
+          <div ref={revealRef} className={s.reveal} data-open="false" style={{ "--cap": `${Math.round(arrival.w / 1.25)}px` } as CSSProperties}>
+            <figure className={s.revealFrame}>
+              <Photo media={arrival} sizes={`(min-width: 768px) min(88vw, ${Math.round(arrival.w / 1.25)}px), 90vw`} className={s.revealImg} />
+              <figcaption className={s.revealCaption}>
+                <span className="aa-micro">{spaces.place}</span>
+                {arrival.caption && <span className="aa-micro">{arrival.caption}</span>}
+              </figcaption>
+            </figure>
+            <p className={s.revealTitle} aria-hidden="true">
+              I collect spaces<em>.</em>
+            </p>
+          </div>
+        )}
         <h2 id="spaces-title" className={s.fallbackTitle}>
           {spaces.title.replace(".", "")}
           <em>.</em>
@@ -176,7 +209,10 @@ export function Spaces({ photos }: { photos: Media[] }) {
                   const cap = sharpWidth(m);
                   return (
                     <li key={m.src} className={s.shot} style={{ "--ar": `${m.w} / ${m.h}`, "--cap": `${cap}px` } as CSSProperties}>
-                      <Photo media={m} sizes={`(min-width: 1024px) min(60vw, ${cap}px), 86vw`} />
+                      <figure className={s.shotFigure}>
+                        <Photo media={m} sizes={`(min-width: 1024px) min(60vw, ${cap}px), 86vw`} />
+                        {m.caption && <figcaption className="aa-micro">{m.caption}</figcaption>}
+                      </figure>
                     </li>
                   );
                 })
