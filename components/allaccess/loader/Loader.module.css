@@ -1,0 +1,130 @@
+.loader {
+  --p: 0;
+  position: fixed;
+  inset: 0;
+  z-index: var(--aa-z-loader);
+  color: var(--aa-ivory);
+  pointer-events: auto;
+}
+
+.panel {
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  height: 50.5%;
+  background:
+    radial-gradient(80% 90% at 50% 100%, color-mix(in srgb, var(--aa-burgundy) 45%, transparent), transparent 70%),
+    var(--aa-night);
+  will-change: transform;
+}
+
+.top {
+  top: 0;
+  transform-origin: 50% 0%;
+}
+
+.bottom {
+  bottom: 0;
+  transform-origin: 50% 100%;
+  background:
+    radial-gradient(80% 90% at 50% 0%, color-mix(in srgb, var(--aa-burgundy) 45%, transparent), transparent 70%),
+    var(--aa-night);
+}
+
+/* The horizon seam — where the panels will part. */
+.seam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--aa-coral) 30%, var(--aa-ivory) 50%, var(--aa-coral) 70%, transparent);
+  transform: scaleX(0);
+  box-shadow: 0 0 18px 1px color-mix(in srgb, var(--aa-coral) 60%, transparent);
+}
+
+.meta {
+  position: absolute;
+  left: var(--aa-gutter);
+  right: var(--aa-gutter);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--aa-ivory-60);
+}
+
+.metaTop {
+  top: calc(var(--aa-gutter) + var(--aa-safe-top));
+}
+
+.metaBottom {
+  bottom: calc(var(--aa-gutter) + var(--aa-safe-bottom));
+}
+
+.metaBottom span:first-child::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.7em;
+  border-radius: 50%;
+  background: var(--aa-chrome);
+  vertical-align: 0.1em;
+  animation: blink 0.9s steps(2, end) infinite;
+}
+
+.loader[data-granted="true"] .metaBottom span:first-child {
+  color: var(--aa-coral);
+}
+
+.loader[data-granted="true"] .metaBottom span:first-child::before {
+  background: var(--aa-coral);
+  animation: none;
+}
+
+/* A thin scanner line that sweeps down as the check progresses. */
+.scan {
+  position: absolute;
+  left: var(--aa-gutter);
+  right: var(--aa-gutter);
+  top: calc(12% + var(--p) * 70%);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--aa-chrome-40), transparent);
+}
+
+.scan::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 1px;
+  width: calc(var(--p) * 100%);
+  background: var(--aa-ivory-60);
+}
+
+.count {
+  position: absolute;
+  right: var(--aa-gutter);
+  bottom: calc(var(--aa-gutter) + 1.8rem + var(--aa-safe-bottom));
+  margin: 0;
+  font-family: var(--aa-display);
+  font-weight: 500;
+  font-size: clamp(5rem, 17vw, 16rem);
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+  color: var(--aa-ivory);
+}
+
+@keyframes blink {
+  to {
+    opacity: 0.2;
+  }
+}
+
+@media (max-width: 767px) {
+  .meta {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+}

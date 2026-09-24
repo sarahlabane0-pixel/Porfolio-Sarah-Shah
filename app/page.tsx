@@ -1,43 +1,33 @@
 "use client";
 
-import { useState } from "react";
-import { Iris } from "@/components/intro/Iris";
-import { Hero } from "@/components/hero/Hero";
-import { Recit } from "@/components/recit/Recit";
-import { Mondes } from "@/components/mondes/Mondes";
-import { Numbers } from "@/components/numbers/Numbers";
-import { Professional } from "@/components/professional/Professional";
-import { Travels } from "@/components/travels/Travels";
-import { Places } from "@/components/places/Places";
-import { Dance } from "@/components/dance/Dance";
-import { Contact } from "@/components/contact/Contact";
-import { SectionBridge } from "@/components/shared/SectionBridge";
+import { useCallback, useEffect, useState } from "react";
+import { Loader } from "@/components/allaccess/loader/Loader";
+import { AccessNav } from "@/components/allaccess/nav/AccessNav";
+import { AccessCursor } from "@/components/allaccess/cursor/AccessCursor";
+import { Hero } from "@/components/allaccess/hero/Hero";
+import { AfterEntry } from "@/components/allaccess/after/AfterEntry";
 
+// ALL ACCESS — hero prototype. Only the entrance is built; the chapters
+// that follow are designed after this one is reviewed.
 export default function Home() {
-  const [heroReady, setHeroReady] = useState(false);
+  const [ready, setReady] = useState(false);
+  const open = useCallback(() => setReady(true), []);
+
+  useEffect(() => {
+    // The entrance is a pinned sequence: always start it from the top.
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
-    <>
-      <Iris onComplete={() => setHeroReady(true)} />
+    <div className="aa">
+      <Loader onOpen={open} />
+      <AccessNav visible={ready} />
+      <AccessCursor />
       <main>
-        <Hero play={heroReady} />
-        <SectionBridge from="#0c0a0b" to="#0c0a0b" />
-        <Recit />
-        <SectionBridge from="#2b0710" to="#2b0710" />
-        <Mondes />
-        <SectionBridge from="#2b0710" to="#0c0a0b" />
-        <Numbers />
-        <SectionBridge from="#0c0a0b" to="#3a0c17" />
-        <Professional />
-        <SectionBridge from="#3d1e12" to="#0c0a0b" />
-        <Travels />
-        <SectionBridge from="#f5efe4" to="#0c0a0b" />
-        <Places />
-        <SectionBridge from="#2b0710" to="#0c0a0b" />
-        <Dance />
-        <SectionBridge from="#0c0a0b" to="#0c0a0b" />
-        <Contact />
+        <Hero ready={ready} />
+        <AfterEntry />
       </main>
-    </>
+    </div>
   );
 }

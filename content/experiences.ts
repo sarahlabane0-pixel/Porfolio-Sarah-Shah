@@ -1,7 +1,8 @@
-// Professional case studies. Copy is drawn from Sarah's CV and her SEP
-// dossier (school report) — real missions, real tools, no invented results.
-// Disney has no detailed duties text yet, only the confirmed job title and
-// dates, so its copy stays restrained rather than filling gaps.
+// Professional case studies, in the order Sarah set: 01 Adecco, 02 Ketil,
+// 03 Choiseul, 04 Digital Content Expert, 05 Disneyland Paris. Copy comes from
+// her CV, SEP dossier and the Digital Content Expert details she supplied —
+// real missions and tools, no invented results. Disney has only the confirmed
+// title and dates, so its copy stays restrained rather than filling gaps.
 
 export type Experience = {
   id: string;
@@ -11,6 +12,7 @@ export type Experience = {
   standfirst: string;
   missions: string[];
   tools?: string[];
+  keywords?: string[];
   photos: { src: string | null; alt: string; placeholderLabel?: string }[];
 };
 
@@ -50,8 +52,10 @@ export const experiences: Experience[] = [
       "Communication événementielle avant, pendant et après les événements — invitations, valorisation des temps forts, couverture, communication post-événement.",
     ],
     photos: [
-      { src: "/assets/ketil/studio-01.jpg", alt: "Espace de travail Ketil Media" },
+      { src: "/assets/ketil/event-theatre-01.jpg", alt: "Salle de spectacle, événement Ketil Media" },
       { src: "/assets/ketil/studio-02.jpg", alt: "Studio #KTAC, Ketil Media" },
+      { src: "/assets/ketil/event-accueil-01.jpg", alt: "Accueil des invités, événement Ketil Media" },
+      { src: "/assets/ketil/studio-01.jpg", alt: "Espace de travail Ketil Media" },
     ],
   },
   {
@@ -69,9 +73,28 @@ export const experiences: Experience[] = [
       "Communication événementielle avant, pendant et après les événements, et reportings post-événement.",
     ],
     photos: [
-      { src: "/assets/choiseul/venue-01.jpg", alt: "Salle de conférence, Institut Choiseul" },
-      { src: "/assets/choiseul/accueil-01.jpg", alt: "Accueil des invités, Institut Choiseul" },
+      { src: "/assets/choiseul/conference-2024-06-03.jpg", alt: "Conférence Institut Choiseul, 3 juin 2024" },
+      { src: "/assets/choiseul/networking-01.jpg", alt: "Temps d'échange entre invités, Institut Choiseul" },
     ],
+  },
+  {
+    id: "dce",
+    company: "Digital Content Expert",
+    role: "Content Manager — alternance",
+    period: "Mai — décembre 2023",
+    standfirst:
+      "Produire, intégrer et fiabiliser des contenus éditoriaux pour différents clients.",
+    missions: [
+      "Relecture et validation des contenus éditoriaux.",
+      "Traductions.",
+      "Validation de contenus graphiques.",
+      "Participation à la gestion des comptes clients.",
+      "Interviews clients et partenaires pour calibrer les productions éditoriales.",
+      "Implémentation CMS sur WordPress et Drupal.",
+      "Recherche iconographique via des banques d'images comme Shutterstock.",
+    ],
+    keywords: ["Content Manager", "WordPress / Drupal", "Interviews", "Iconographie"],
+    photos: [],
   },
   {
     id: "disney",

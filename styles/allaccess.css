@@ -1,0 +1,83 @@
+/* ALL ACCESS — design system.
+   Scoped to .aa so the archived v1 route keeps its own tokens untouched. */
+
+.aa {
+  /* Colour — dark cinematic scenes vs light editorial scenes.
+     Coral is an accent only (interactive state, codes, one highlight). */
+  --aa-night: #2a0712;
+  --aa-burgundy: #651a35;
+  --aa-ivory: #f2ece4;
+  --aa-chrome: #c6c5c2;
+  --aa-coral: #ff6557;
+  --aa-black: #0d0b0c;
+
+  --aa-ivory-60: color-mix(in srgb, var(--aa-ivory) 60%, transparent);
+  --aa-ivory-30: color-mix(in srgb, var(--aa-ivory) 30%, transparent);
+  --aa-chrome-40: color-mix(in srgb, var(--aa-chrome) 40%, transparent);
+  --aa-chrome-20: color-mix(in srgb, var(--aa-chrome) 20%, transparent);
+
+  /* Type — three families, three jobs. */
+  --aa-display: var(--font-space-grotesk), "Space Grotesk", system-ui, sans-serif;
+  --aa-serif: var(--font-instrument-serif), "Instrument Serif", Georgia, serif;
+  --aa-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+
+  --aa-t-monument: clamp(6rem, 26.5vw, 32rem); /* SARAH / SHAH */
+  --aa-t-giant: clamp(3.4rem, 8.6vw, 10rem);   /* YOU'RE ON */
+  --aa-t-serif-giant: clamp(4.4rem, 13vw, 15rem); /* list. */
+  --aa-t-lead: clamp(1.5rem, 2.4vw, 2.4rem);   /* editorial serif line */
+  --aa-t-body: clamp(0.95rem, 1.05vw, 1.1rem);
+  --aa-t-micro: 0.6875rem;                      /* 11px mono */
+
+  --aa-track-micro: 0.14em;
+  --aa-track-tight: -0.055em;
+
+  /* Space */
+  --aa-gutter: clamp(1.1rem, 2.6vw, 2.5rem);
+  --aa-safe-top: max(env(safe-area-inset-top), 0px);
+  --aa-safe-bottom: max(env(safe-area-inset-bottom), 0px);
+
+  /* Motion — fast UI / editorial reveals / scroll-scrubbed (no fixed ms) */
+  --aa-fast: 320ms;
+  --aa-editorial: 780ms;
+  --aa-ease-out: cubic-bezier(0.16, 1, 0.3, 1);   /* expo.out */
+  --aa-ease-inout: cubic-bezier(0.65, 0, 0.35, 1); /* power3.inOut */
+
+  /* Z — cursor > nav > loader > hud > foreground > content > background */
+  --aa-z-bg: 0;
+  --aa-z-content: 10;
+  --aa-z-fore: 20;
+  --aa-z-hud: 40;
+  --aa-z-nav: 100;
+  --aa-z-loader: 200;
+  --aa-z-cursor: 300;
+
+  background: var(--aa-night);
+  color: var(--aa-ivory);
+  font-family: var(--aa-display);
+  font-size: var(--aa-t-body);
+  line-height: 1.5;
+  overflow-x: clip;
+}
+
+.aa ::selection {
+  background: var(--aa-coral);
+  color: var(--aa-black);
+}
+
+.aa :focus-visible {
+  outline: 1px solid var(--aa-coral);
+  outline-offset: 4px;
+}
+
+.aa-micro {
+  font-family: var(--aa-mono);
+  font-size: var(--aa-t-micro);
+  letter-spacing: var(--aa-track-micro);
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+html[data-aa-cursor="on"],
+html[data-aa-cursor="on"] * {
+  cursor: none !important;
+}

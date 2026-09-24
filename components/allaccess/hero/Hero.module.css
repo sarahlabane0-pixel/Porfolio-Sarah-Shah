@@ -1,0 +1,854 @@
+/* ─────────────────────────────────────────────────────────────
+   ALL ACCESS — Hero / Entrée
+   Depth order (back → front), inside the clipped stage:
+     backdrop (LED wall, structure) → beams → SARAH/SHAH solid
+     → portrait (WebGL or <img>) + event identity → haze
+     → SARAH/SHAH outline copies
+   Outside the stage: world background, frame, copy, HUD.
+   ───────────────────────────────────────────────────────────── */
+
+.hero {
+  --frame-top: 17svh;
+  --frame-bottom: 13svh;
+  --frame-x: 36vw;
+
+  position: relative;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ─── World (what the stage shrinks into) ─── */
+
+.world {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--aa-night);
+}
+
+/* The ivory page. It grows outward from behind the contracting stage, so
+   the page seems to open up around the hero rather than fade in. */
+.paper {
+  position: absolute;
+  inset: 0;
+  background: var(--aa-ivory);
+  clip-path: inset(var(--frame-top) var(--frame-x) var(--frame-bottom) var(--frame-x));
+  visibility: hidden;
+}
+
+.rules {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.rules span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: color-mix(in srgb, var(--aa-black) 10%, transparent);
+}
+
+.rules span:nth-child(1) { left: var(--frame-x); }
+.rules span:nth-child(2) { right: var(--frame-x); }
+.rules span:nth-child(3) {
+  left: 0;
+  right: 0;
+  top: var(--frame-top);
+  bottom: auto;
+  width: auto;
+  height: 1px;
+}
+
+/* ─── Stage ─── */
+
+.stage {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  clip-path: inset(0svh 0vw 0svh 0vw);
+  background:
+    radial-gradient(90% 70% at 50% 18%, color-mix(in srgb, var(--aa-burgundy) 70%, transparent) 0%, transparent 60%),
+    radial-gradient(140% 100% at 50% 100%, var(--aa-night) 30%, var(--aa-black) 100%);
+}
+
+.stageInner {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 52%;
+  perspective: 1600px;
+  will-change: transform;
+}
+
+.backdrop,
+.beams {
+  position: absolute;
+  inset: -4%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.backdrop { z-index: 1; }
+.beams { z-index: 2; }
+
+/* A distant LED wall: dot matrix, radially masked, with a slow scan band. */
+.led {
+  position: absolute;
+  left: 50%;
+  top: 8svh;
+  width: 66vw;
+  height: 60svh;
+  transform: translateX(-50%);
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--aa-coral) 85%, transparent) 0 1px, transparent 1.7px);
+  background-size: 9px 9px;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 46%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 46%, #000 0%, transparent 78%);
+  opacity: 0.2;
+  overflow: hidden;
+}
+
+.led::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--aa-ivory) 70%, transparent) 50%, transparent 100%);
+  width: 30%;
+  animation: aa-scan 7s linear infinite;
+  mix-blend-mode: overlay;
+}
+
+@keyframes aa-scan {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(420%); }
+}
+
+.structure {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.structure path,
+.structure line,
+.structure polyline,
+.structure rect {
+  fill: none;
+  stroke: var(--aa-chrome);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 0;
+  opacity: 0.26;
+}
+
+.structure .strong { opacity: 0.45; }
+
+.pool {
+  position: absolute;
+  left: 50%;
+  bottom: -8svh;
+  width: 80vw;
+  height: 34svh;
+  transform: translateX(-50%);
+  background: radial-gradient(50% 50% at 50% 50%, color-mix(in srgb, var(--aa-coral) 16%, transparent), transparent 70%);
+}
+
+.beam {
+  position: absolute;
+  top: -14svh;
+  width: 24vw;
+  height: 135svh;
+  transform-origin: 50% 0;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--aa-ivory) 30%, transparent) 0%,
+    color-mix(in srgb, var(--aa-ivory) 6%, transparent) 55%,
+    transparent 82%);
+  clip-path: polygon(47% 0, 53% 0, 100% 100%, 0 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 38%, #000 62%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 38%, #000 62%, transparent 100%);
+  mix-blend-mode: screen;
+  opacity: 0.5;
+}
+
+.beamL { left: 4vw; rotate: -19deg; }
+.beamR { right: 4vw; rotate: 19deg; }
+
+/* ─── Monumental type ─── */
+
+.word {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0;
+  font-family: var(--aa-display);
+  font-weight: 600;
+  font-size: var(--aa-t-monument);
+  line-height: 0.78;
+  letter-spacing: var(--aa-track-tight);
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+}
+
+.wordClip {
+  display: block;
+  overflow: hidden;
+  padding: 0.04em 0 0.02em;
+}
+
+.wordInner { display: block; }
+
+.sarah { top: 7svh; }
+.shah { bottom: 5svh; }
+
+.solid {
+  z-index: 3;
+  color: var(--aa-ivory);
+}
+
+.outline {
+  z-index: 7;
+  color: transparent;
+  -webkit-text-stroke: 1.4px var(--aa-ivory);
+}
+
+.sarah.outline {
+  opacity: 0.09;
+  transition: opacity 0.9s var(--aa-ease-out);
+}
+
+/* Nothing crosses her face once the real portrait is revealed. */
+.hero[data-state="real"] .sarah.outline { opacity: 0; }
+.shah.outline { opacity: 0.9; }
+
+/* ─── Portrait ─── */
+
+.portraitPos {
+  position: absolute;
+  left: 50%;
+  bottom: -12svh;
+  height: 112svh;
+  aspect-ratio: 1122 / 1402;
+  transform: translateX(-50%);
+  z-index: 4;
+}
+
+.portraitEntry,
+.portrait {
+  position: absolute;
+  inset: 0;
+}
+
+.portrait { will-change: transform; }
+
+.fallback,
+.gl {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.fallback { object-fit: contain; }
+
+/* The source photo is cropped at its left/right edges (hair, shoulders).
+   Feather those edges so the cut never reads as a hard vertical line.
+   Applied to the image layers only: a mask on an ancestor would become a
+   backdrop root and break the acrylic's backdrop-filter. */
+.fallback,
+.gl {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 11%, #000 89%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 11%, #000 89%, transparent 100%);
+}
+
+.gl {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.hero[data-gl="on"] .gl { opacity: 1; }
+.hero[data-gl="on"] .fallback { visibility: hidden; }
+
+.haze {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 42svh;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--aa-black) 88%, transparent) 0%, transparent 100%);
+}
+
+/* ─── Event identity (states B/C), registered to the portrait ─── */
+
+.identity,
+.identityDepth {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.identityDepth { will-change: transform; }
+
+.ribbon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.ribbonStroke {
+  fill: none;
+  stroke-width: 44;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 0;
+}
+
+.ribbonEdge {
+  fill: none;
+  stroke: var(--aa-chrome);
+  stroke-width: 1;
+  opacity: 0.35;
+  vector-effect: non-scaling-stroke;
+}
+
+.ribbonText {
+  font-family: var(--aa-mono);
+  font-size: 15px;
+  letter-spacing: 5px;
+  fill: var(--aa-ivory);
+  opacity: 0.85;
+}
+
+.panelWrap {
+  position: absolute;
+  left: 58%;
+  top: 3%;
+  width: 40%;
+  height: 43%;
+  transform-origin: 0% 50%;
+  transition: transform 0.7s var(--aa-ease-out);
+}
+
+.hero[data-hover="on"][data-state="event"] .panelWrap {
+  transform: translateX(3%) rotateY(-9deg);
+}
+
+.glass {
+  position: absolute;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--aa-chrome) 45%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--aa-ivory) 5%, transparent),
+    0 2.4rem 4rem color-mix(in srgb, var(--aa-black) 40%, transparent);
+}
+
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: linear-gradient(105deg, transparent 40%, color-mix(in srgb, var(--aa-ivory) 22%, transparent) 50%, transparent 60%);
+  transform: translateX(calc(var(--glint, 0) * 22%));
+  pointer-events: none;
+}
+
+.panel {
+  inset: 0;
+  rotate: -6deg;
+  background: linear-gradient(115deg,
+    color-mix(in srgb, var(--aa-ivory) 16%, transparent) 0%,
+    color-mix(in srgb, var(--aa-ivory) 3%, transparent) 40%,
+    color-mix(in srgb, var(--aa-ivory) 0%, transparent) 60%,
+    color-mix(in srgb, var(--aa-ivory) 8%, transparent) 100%);
+  -webkit-backdrop-filter: blur(5px) saturate(1.15) brightness(1.06);
+  backdrop-filter: blur(5px) saturate(1.15) brightness(1.06);
+}
+
+.panelEtch {
+  position: absolute;
+  color: var(--aa-ivory);
+  opacity: 0.72;
+}
+
+.panelEtchV {
+  right: 6%;
+  top: 8%;
+  writing-mode: vertical-rl;
+}
+
+.panelEtchTop { left: 8%; top: 6%; }
+.panelEtchBottom { left: 8%; bottom: 6%; display: flex; align-items: center; gap: 0.6em; }
+
+.panelEtchBottom i {
+  display: block;
+  width: 1.6rem;
+  height: 1px;
+  background: var(--aa-coral);
+}
+
+.shard {
+  left: 3%;
+  top: 49%;
+  width: 29%;
+  height: 20%;
+  rotate: 12deg;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--aa-ivory) 10%, transparent), transparent 70%);
+  -webkit-backdrop-filter: blur(3px) brightness(1.08);
+  backdrop-filter: blur(3px) brightness(1.08);
+  border-left-color: color-mix(in srgb, var(--aa-coral) 70%, transparent);
+}
+
+.passDepth {
+  position: absolute;
+  right: -7%;
+  top: 57%;
+  width: 23%;
+  will-change: transform;
+}
+
+.pass {
+  position: relative;
+  aspect-ratio: 5 / 7;
+  rotate: 7deg;
+  padding: 11% 10% 9%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+  border-radius: 4px;
+  color: var(--aa-ivory);
+  background: linear-gradient(170deg, color-mix(in srgb, var(--aa-ivory) 14%, transparent), color-mix(in srgb, var(--aa-night) 30%, transparent));
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  backdrop-filter: blur(14px) saturate(1.1);
+}
+
+.passSlot {
+  position: absolute;
+  top: 4%;
+  left: 50%;
+  width: 22%;
+  height: 3.2%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--aa-black) 55%, transparent);
+}
+
+.passTitle {
+  margin: 0.8em 0 0.4em;
+  font-family: var(--aa-display);
+  font-weight: 600;
+  font-size: clamp(0.8rem, 1.25vw, 1.25rem);
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.passTitle i,
+.dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--aa-coral);
+  box-shadow: 0 0 0.8rem var(--aa-coral);
+}
+
+.passLine {
+  margin: 0;
+  font-size: clamp(0.45rem, 0.55vw, 0.62rem);
+  opacity: 0.8;
+}
+
+.passCode {
+  margin-top: auto;
+  height: 12%;
+  opacity: 0.55;
+  background: repeating-linear-gradient(90deg,
+    var(--aa-ivory) 0 1px, transparent 1px 3px,
+    var(--aa-ivory) 3px 5px, transparent 5px 6px,
+    var(--aa-ivory) 6px 7px, transparent 7px 10px);
+}
+
+.code {
+  position: absolute;
+  margin: 0;
+  color: var(--aa-chrome);
+  white-space: nowrap;
+}
+
+.mark {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+}
+
+.mark::before,
+.mark::after {
+  content: "";
+  position: absolute;
+  background: var(--aa-chrome);
+  opacity: 0.7;
+}
+
+.mark::before { left: 50%; top: 0; bottom: 0; width: 1px; }
+.mark::after { top: 50%; left: 0; right: 0; height: 1px; }
+
+/* ─── Reveal hit area + annotation ─── */
+
+.hit {
+  position: absolute;
+  left: 27%;
+  top: 3%;
+  width: 46%;
+  height: 54%;
+  z-index: 12;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 40% 40% 30% 30%;
+}
+
+.cueNote {
+  position: absolute;
+  left: 91%;
+  top: 44%;
+  white-space: nowrap;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  pointer-events: none;
+  color: var(--aa-ivory);
+}
+
+.cueNote i {
+  display: block;
+  width: 3.5rem;
+  height: 1px;
+  background: color-mix(in srgb, var(--aa-ivory) 55%, transparent);
+}
+
+.cueNote span:last-child { color: var(--aa-chrome); }
+
+/* ─── Frame (what the hero contracts into) ─── */
+
+.frame {
+  position: absolute;
+  z-index: 3;
+  top: var(--frame-top);
+  bottom: var(--frame-bottom);
+  left: var(--frame-x);
+  right: var(--frame-x);
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 0 0 1px var(--aa-black);
+  color: var(--aa-black);
+}
+
+.frameTag {
+  position: absolute;
+  top: -1.9em;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.frameCaption {
+  position: absolute;
+  bottom: -2em;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tick {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--aa-black);
+  border-style: solid;
+  border-width: 0;
+}
+
+.tick:nth-of-type(1) { top: -7px; left: -7px; border-top-width: 1px; border-left-width: 1px; }
+.tick:nth-of-type(2) { top: -7px; right: -7px; border-top-width: 1px; border-right-width: 1px; }
+.tick:nth-of-type(3) { bottom: -7px; left: -7px; border-bottom-width: 1px; border-left-width: 1px; }
+.tick:nth-of-type(4) { bottom: -7px; right: -7px; border-bottom-width: 1px; border-right-width: 1px; }
+
+/* ─── Copy around the frame ─── */
+
+.copy {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  color: var(--aa-night);
+}
+
+.copy a { pointer-events: auto; }
+
+.line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+
+.line > span {
+  display: block;
+}
+
+.listLeft,
+.listRight {
+  position: absolute;
+  top: 27svh;
+  margin: 0;
+  font-family: var(--aa-display);
+  font-weight: 600;
+  font-size: var(--aa-t-giant);
+  line-height: 0.84;
+  letter-spacing: -0.05em;
+}
+
+.listLeft { left: var(--aa-gutter); }
+
+.listRight {
+  right: var(--aa-gutter);
+  text-align: right;
+}
+
+.serif {
+  font-family: var(--aa-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--aa-t-serif-giant);
+  letter-spacing: -0.03em;
+  line-height: 0.8;
+  color: var(--aa-burgundy);
+}
+
+.serif em {
+  font-style: normal;
+  color: var(--aa-coral);
+}
+
+.labelL,
+.labelR {
+  position: absolute;
+  top: var(--frame-top);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  opacity: 0;
+}
+
+.labelL { left: var(--aa-gutter); }
+.labelR { right: var(--aa-gutter); text-align: right; }
+
+.labelL span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+}
+
+.intro {
+  position: absolute;
+  left: var(--aa-gutter);
+  bottom: var(--frame-bottom);
+  width: min(30vw, 30rem);
+}
+
+.welcome {
+  margin: 0 0 0.6em;
+  font-family: var(--aa-serif);
+  font-style: italic;
+  font-size: var(--aa-t-lead);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.introText {
+  margin: 0;
+  max-width: 26em;
+  color: color-mix(in srgb, var(--aa-night) 80%, transparent);
+}
+
+.fields {
+  position: absolute;
+  right: var(--aa-gutter);
+  bottom: var(--frame-bottom);
+  width: min(24vw, 20rem);
+  margin: 0;
+  text-align: right;
+  opacity: 0;
+}
+
+/* ─── HUD at rest ─── */
+
+.hud {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.hudItem {
+  position: absolute;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+
+.hudFields {
+  left: var(--aa-gutter);
+  bottom: calc(var(--aa-gutter) + var(--aa-safe-bottom));
+}
+
+.hudFields strong {
+  font-family: var(--aa-display);
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hudAvail {
+  right: var(--aa-gutter);
+  bottom: calc(var(--aa-gutter) + var(--aa-safe-bottom));
+  text-align: right;
+  align-items: flex-end;
+}
+
+.hudAvail span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+}
+
+.hudCity {
+  left: var(--aa-gutter);
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  color: var(--aa-chrome);
+}
+
+.hudCue {
+  left: 50%;
+  bottom: calc(var(--aa-gutter) + var(--aa-safe-bottom));
+  transform: translateX(-50%);
+  align-items: center;
+}
+
+.cueTrack {
+  position: relative;
+  width: 1px;
+  height: 2.6rem;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--aa-ivory) 20%, transparent);
+}
+
+.cueTrack::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -40%;
+  width: 1px;
+  height: 40%;
+  background: var(--aa-ivory);
+  animation: aa-cue 1.8s var(--aa-ease-inout) infinite;
+}
+
+@keyframes aa-cue {
+  to { top: 100%; }
+}
+
+/* ─── Mobile choreography ─── */
+
+/* Portrait tablets: a shorter portrait so SARAH stays readable above her. */
+@media (min-width: 768px) and (orientation: portrait) {
+  .portraitPos {
+    height: 90svh;
+    bottom: -4svh;
+  }
+
+  .sarah { top: 6svh; }
+  .panelWrap { left: 62%; }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    --frame-top: 19svh;
+    --frame-bottom: 37svh;
+    --frame-x: 16vw;
+  }
+
+  .sarah { top: 9svh; }
+  .shah { bottom: 17svh; }
+
+  .led { width: 120vw; }
+  .beam { width: 46vw; }
+
+  .portraitPos {
+    height: 86svh;
+    bottom: -2svh;
+  }
+
+  .panelWrap { left: 63%; top: 6%; width: 34%; height: 36%; }
+  .passDepth { right: 2%; width: 24%; top: 55%; }
+  .cueNote { left: 21%; top: 55%; }
+  .cueNote i { width: 1.6rem; }
+  .code { display: none; }
+
+  .listLeft,
+  .listRight {
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: clamp(2.6rem, 12vw, 4rem);
+  }
+
+  .listLeft { top: 9svh; }
+  .listLeft .line { display: inline-block; margin: 0 0.12em; }
+  .listRight { top: calc(100svh - var(--frame-bottom) + 2svh); }
+  .listRight .line { display: inline-block; margin: 0 0.1em; vertical-align: baseline; }
+  .serif { font-size: clamp(3.4rem, 17vw, 5.2rem); }
+
+  .labelL,
+  .labelR,
+  .fields,
+  .rules { display: none; }
+
+  .intro {
+    left: var(--aa-gutter);
+    right: var(--aa-gutter);
+    width: auto;
+    bottom: calc(4svh + var(--aa-safe-bottom));
+    text-align: center;
+  }
+
+  .welcome { font-size: 1.35rem; }
+  .introText { margin: 0 auto; font-size: 0.9rem; }
+
+  .hudCity { display: none; }
+  .hudFields strong { font-size: 0.68rem; }
+  .hudAvail span:last-child { display: none; }
+  .hudCue { display: none; }
+}

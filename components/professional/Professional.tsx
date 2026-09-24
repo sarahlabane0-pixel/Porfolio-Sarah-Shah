@@ -13,6 +13,7 @@ const ACCENTS: Record<string, { a: string; b: string }> = {
   adecco: { a: "#3a0c17", b: "#e2a6ab" },
   ketil: { a: "#33122a", b: "#e7b8d1" },
   choiseul: { a: "#2b0710", b: "#d9a05c" },
+  dce: { a: "#1a1030", b: "#b9b3e8" },
   disney: { a: "#3d1e12", b: "#f0c98f" },
 };
 

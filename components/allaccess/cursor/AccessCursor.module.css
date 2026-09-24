@@ -1,0 +1,80 @@
+.cursor {
+  position: fixed;
+  inset: 0;
+  z-index: var(--aa-z-cursor);
+  pointer-events: none;
+  display: none;
+}
+
+.cursor[data-active="on"] {
+  display: block;
+}
+
+.dot,
+.ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cursor[data-visible="on"] .dot,
+.cursor[data-visible="on"] .ring {
+  opacity: 1;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--aa-ivory);
+  mix-blend-mode: difference;
+}
+
+.ringShape {
+  position: absolute;
+  left: -18px;
+  top: -18px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid color-mix(in srgb, var(--aa-chrome) 55%, transparent);
+  border-radius: 50%;
+  transition:
+    transform 0.5s var(--aa-ease-out),
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+html[data-aa-theme="light"] .ringShape {
+  border-color: color-mix(in srgb, var(--aa-black) 35%, transparent);
+}
+
+.cursor[data-state="hot"] .ringShape {
+  transform: scale(1.9);
+  border-color: var(--aa-coral);
+  background: color-mix(in srgb, var(--aa-coral) 8%, transparent);
+}
+
+.cursor[data-down="on"] .ringShape {
+  transform: scale(1.5);
+}
+
+.label {
+  position: absolute;
+  left: 44px;
+  top: -0.45em;
+  white-space: nowrap;
+  color: var(--aa-coral);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s var(--aa-ease-out);
+}
+
+.cursor[data-state="hot"] .label:not(:empty) {
+  opacity: 1;
+  transform: none;
+}

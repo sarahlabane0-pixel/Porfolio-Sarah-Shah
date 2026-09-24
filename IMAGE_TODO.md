@@ -1,100 +1,79 @@
 # Image TODO
 
-Tracks every image gap and quality caveat so nothing gets silently stretched
-or replaced with stock photography. Updated as Sarah sends more source files.
+Tracks every image source, quality caveat and gap, so nothing gets silently
+stretched, mis-attributed or replaced with generated imagery.
 
-## In use, with caveats
+## Hero portrait (ALL ACCESS prototype)
 
-### `public/assets/portraits/sarah-standing.png`
-- Section: Hero (`components/hero/Hero.tsx`)
-- Source: extracted from `Pink Bold About Me Presentation.pdf`, page 1, cut
-  out against a flat black background and keyed to alpha transparency.
-- Current resolution: 653×1452 (cropped from a 1643×2191 source).
-- Recommended: fine at the current hero scale (`clamp(42vh, ..., 78vh)`),
-  but a native high-resolution export of this same photo (2000px+ on the
-  long edge) would hold up better if the composition is ever pushed larger,
-  or reused at full-bleed size elsewhere in the site.
+- `public/assets/hero/sarah-portrait.webp` — STATE A (real portrait), supplied
+  by Sarah, 1122×1402. Used as the full-bleed fallback and the source for:
+  - `sarah-cutout.webp` — silhouette extracted with BiRefNet (portrait
+    segmentation model), soft alpha preserved on the curls. Lets typography
+    sit genuinely behind her body, not behind a rectangle.
+  - `sarah-depth.png` — per-pixel depth estimated with Depth Anything v2,
+    multiplied by the silhouette so the background reads as uniformly far.
+    Drives the cursor depth-displacement shader.
+- STATE B / STATE C (hybrid / full event identity) are **not image files**:
+  they are built in code as a scenographic layer (acrylic panel, accreditation
+  ribbon, pass, beams, structure, codes) composited around the real
+  portrait. Nothing about her face is generated or altered. If Sarah later
+  supplies designed B/C visuals, they can replace the code layer.
 
-### `public/assets/portraits/sarah-iris.jpg`
-- Section: Iris opening (`components/intro/Iris.tsx`)
-- Source: extracted from `CV - Shah Sarah.pdf`, page 1, re-cropped to a
-  tight 400×400 headshot centred precisely on her eyes (the original crop
-  was centred on her neck/necklace, which meant the small starting circle
-  revealed hair and jewellery instead of her face — fixed).
-- Current resolution: 400×400.
-- Recommended: reads clearly at the small starting-circle size and through
-  most of the reveal; a higher-resolution face-forward shot (1200px+)
-  would remove the last bit of softness at full-screen expansion, though
-  that moment is already brief and crossfades into the hero.
-- Also fixed: a dev-mode-only bug where React's Strict Mode double-mount
-  caused the "seen this intro" flag to be set before the real animation
-  ever played, so every local `npm run dev` preview (including the one
-  sent earlier) was skipping straight to a half-second fade instead of
-  the actual iris reveal. This is why it looked barely visible — it was
-  never really playing. Production builds were never affected, but this
-  is now fixed for dev too.
+## Corrections made after re-auditing the source decks
 
-## Missing — blocks later chapters
+- The red theatre and reception photos were previously filed under
+  Institut Choiseul. On the About Me deck they sit on the **Ketil** slide, so
+  they are now `public/assets/ketil/event-theatre-01.jpg` and
+  `event-accueil-01.jpg`.
+- The real Institut Choiseul photos are now extracted:
+  `public/assets/choiseul/conference-2024-06-03.jpg` (386×389, dated on the
+  slide) and `networking-01.jpg` (733×457).
+- `danse/mouvement-02.jpg` was a Jacquemus product shot from the "Luxe"
+  moodboard, mislabelled as a dance photo. Deleted (it was never displayed).
+- `danse/mouvement-01.jpg` is Sarah in costume from the Disneyland Paris
+  slide, in a movement pose — a real photo of her, but it comes from the
+  Disney experience, not from a dance context.
 
-Sarah confirmed she has real photos organized by section (travel, Espace
-Niemeyer, atypical places, companies, personal projects), some grouped
-inside PDFs, to be sent separately. Once received, re-run the same
-extraction pass used for the four files already analysed (crop, quality
-check, alpha-key where relevant) and update this list.
+## Travel — found in `PORTFOLIO - SARAH - 2025.pdf`, pages 5–6
 
-- **Marrakech** — confirmed personally visited: Jemaa el-Fna, La Mamounia.
-  No photos received yet for either. Other Marrakech references (Koutoubia,
-  Jardin Majorelle, Bahia Palace, Medina/souks, Ben Youssef Madrasa) are
-  approved as visual/cultural inspiration only, not to be presented as
-  places visited, and not yet sourced either way.
-- **Algeria** — confirmed personally visited: Algiers, Oran, the desert. No
-  photos and no specific locations within each yet (explicitly withheld
-  until Sarah reviews her own photos — do not invent monuments, hotels, or
-  landmarks for any of the three).
-- **New York** — no personal photos yet. Strong personal narrative text
-  exists (Broadway, the Met, Brooklyn street art, hip-hop street
-  performances) and is usable as real copy independent of imagery.
-- **Houston** — no personal photos yet. Strong personal narrative text
-  exists (Space Center Houston) and is usable as real copy.
-- **Venice** — no personal photos, no personal narrative text yet.
-- **Palma de Majorque** — no personal photos, no personal narrative text yet.
-- **Espace Niemeyer** — no photos received yet despite being a named,
-  major section in the brief.
-- **Galleries / expositions / pop-up stores** — text references exist (AURA
-  Invalides, "Le monde comme il va" at the Bourse de Commerce / Collection
-  Pinault) but no personal photography yet.
+Extracted to `public/assets/travel/`. Not yet placed anywhere (the travel
+chapter is redesigned after the hero is approved). All are small — fine for
+collage/card use, not for full-screen.
 
-## Now in use — modest resolution, fine at current scale
+| Destination | File | Size | Note |
+|---|---|---|---|
+| Houston | `houston-road-skyline.jpg` | 452×602 | Skyline seen from a car — reads as a personal photo |
+| New York | `new-york-liberty-empire-state.jpg` | 508×635 | **Appears to be a photo composite** (the Statue of Liberty is not physically in front of the Empire State Building). Please confirm you want it used |
+| Venice | `venice-canal-night.jpg` | 295×524 | |
+| Venice | `venice-rialto.jpg` | 368×460 | |
+| Palma | `palma-cathedral.jpg` | 248×544 | La Seu cathedral |
+| Palma | `palma-cove.jpg` | 384×480 | Mallorca cove |
+| Spain (Palma?) | `spain-flag-promenade.jpg` | 368×491 | Please confirm the location |
+| Algeria | `algeria-boat-flag.jpg` | 295×524 | Algerian flag visible |
+| Algeria | `algeria-coast-tree.jpg` | 295×524 | Placed under the Algeria column on the page; please confirm |
+| Morocco | `morocco-chefchaouen-blue-street.jpg` | 295×524 | **This is Chefchaouen (the blue city), not Marrakech** |
+| ? | `unassigned-white-arches.jpg` | 832×832 | Hidden behind another image on page 5; destination unknown |
 
-These are real photos (not placeholders), used in `components/professional/`,
-`components/mondes/` and `components/dance/`. All are displayed at
-small/medium scale (case-study spread photos, not full-bleed hero), which
-suits their resolution — flagged here only so nobody scales them up later
-without checking.
+The same page also has a Guadeloupe beach photo (not one of the six
+destinations, not extracted).
 
-- `public/assets/adecco/kickoff-01.jpg` (615×346), `kickoff-02.jpg`
-  (410×231) — Adecco Group kickoff/auditorium, used in Professional at a
-  bounded max-width (clamp caps around 420px/300px), so these are actually
-  downscaled there, not stretched.
-- `public/assets/ketil/studio-01.jpg` (605×807), `studio-02.jpg` (857×1143)
-  — Ketil Media workspace and "#KTAC Studio" sign.
-- `public/assets/choiseul/venue-01.jpg` (908×1210), `accueil-01.jpg`
-  (480×640) — Institut Choiseul theatre interior and guest check-in.
-  `venue-01.jpg` is now also the "Projets professionnels" cover in Mes
-  Mondes (swapped from the smaller Adecco crop, which was being stretched
-  across the full expanded panel — up to ~2x upscale — and looked
-  genuinely blurry there). Every Mes Mondes cover photo also gets a grain
-  + vignette treatment now so the look is consistent regardless of source
-  resolution.
-- `public/assets/disney/pier-01.jpg` (442×589), `parade-01.jpg` (600×401)
-  — Disneyland Paris, both under 600px on the long edge, will look soft
-  above small/medium display size.
-- `public/assets/danse/mouvement-01.jpg` (548×731), `mouvement-02.jpg`
-  (451×557) — used in the Danse section (mouvement-01) and Mes Mondes
-  cover (mouvement-01); mouvement-02 extracted but not yet placed.
+## Genuinely missing — not in any of the four source files
 
-## Explicitly avoided
+- **Marrakech** — no image of Marrakech itself (only Chefchaouen, above).
+- **Espace Niemeyer** — no image anywhere in the CV, About Me deck, 2025
+  portfolio or SEP dossier. It is only named in the CV's interests line.
+- **Algeria: Oran and the desert** — only the boat/coast images above, no
+  image identifiable as Oran or the desert.
+- Galleries / pop-up stores / cafés / installations — the "Expositions" page
+  has images (Bourse de Commerce interior, a projection space) that look like
+  press/stock visuals; not extracted pending confirmation.
 
-No stock or generic imagery has been used to stand in for any of the above.
-Sections with missing personal photography will ship with a clearly marked
-placeholder rather than a substitute photo, per Sarah's instruction.
+## Other real photos in use (modest resolution)
+
+- Adecco: `adecco/kickoff-01.jpg` (615×346), `kickoff-02.jpg` (410×231)
+- Ketil: `ketil/studio-01.jpg` (605×807), `studio-02.jpg` (857×1143),
+  `event-theatre-01.jpg` (908×1210), `event-accueil-01.jpg` (480×640)
+- Disney: `disney/pier-01.jpg` (442×589), `parade-01.jpg` (600×401)
+- Previous portraits: `portraits/sarah-standing.png` (653×1452 cutout),
+  `portraits/sarah-iris.jpg` (400×400) — superseded by the new hero portrait,
+  kept for the archived v1 site.
