@@ -35,6 +35,7 @@ Extracted from Sarah's own PDFs (original embedded bytes, no upscaling):
 | `adecco/office-01.jpg` | 720×480 | SEP dossier p.22 | Work — Adecco |
 | `adecco/kickoff-01.jpg` | 615×346 | SEP dossier p.21 | Work — Adecco |
 | `adecco/kickoff-group-01.jpg` | 615×297 | SEP dossier p.21 (Akkodis group photo, kick-off 2026) | Work — Adecco (replaces `kickoff-02.jpg`, which was the same stage photo as `kickoff-01.jpg`) |
+| `adecco/presentation-01.webp` | 672×900 | sent by Sarah in the conversation | Work — Adecco |
 | `ketil/studio-interview-01.jpg` | 1286×1714 | About Me deck p.5 | Work — Ketil |
 | `ketil/event-theatre-01.jpg` | 908×1210 | About Me deck p.5 | Work — Ketil, Programme |
 | `ketil/studio-02.jpg` | 857×1143 | About Me deck p.5 | Work — Ketil |
@@ -43,9 +44,11 @@ Extracted from Sarah's own PDFs (original embedded bytes, no upscaling):
 | `ketil/event-outdoor-01.jpg` | 605×807 | About Me deck p.5 | not placed yet |
 | `choiseul/networking-01.jpg` | 733×457 | About Me deck p.4 | Work — Choiseul |
 | `choiseul/conference-2024-06-03.jpg` | 386×389 | earlier extraction | Work — Choiseul |
+| `choiseul/leadership-engage-01.webp` | 690×916 | sent by Sarah in the conversation (table ronde « Initiative Leadership Engagé ») | Work — Choiseul (Sarah confirmed it belongs to Institut Choiseul) |
 | `disney/castle-sunset-01.jpg` | 736×1308 | Portfolio 2025 p.9 | Work — Disney (replaces the 442px `pier-01.jpg`) |
 | `disney/parade-01.jpg` | 600×401 | Portfolio 2025 p.9 | Work — Disney |
 | `disney/disney-theater-01.webp` | 2000×1334 | sent by Sarah in the conversation | Work — Disney |
+| `disney/avengers-campus-01.webp` | 2000×1208 | sent by Sarah in the conversation | Work — Disney |
 | `places/aura-invalides-01.jpg` | 706×749 | Portfolio 2025 p.8 | Spaces |
 | `places/bourse-de-commerce-01.jpg` | 465×620 | Portfolio 2025 p.8 | Spaces |
 | `places/immersive-dome-01.jpg` | 980×480 | Portfolio 2025 p.8 | Spaces |
@@ -78,13 +81,6 @@ Extracted from Sarah's own PDFs (original embedded bytes, no upscaling):
 | Where | Placeholder | What I need |
 |---|---|---|
 | — | None left: Marrakech and New York now have Sarah's photos. | — |
-
-### Pending
-
-- **Ketil Media — new photo**: the photo sent for Ketil (conference under a
-  tapestry) shows **Institut Choiseul** branding ("Initiative Leadership
-  Engagé" banner with the Institut Choiseul logo). Not placed until Sarah
-  confirms where it belongs. Stored nowhere in the repo yet.
 
 ## Espace Niemeyer — photographs
 

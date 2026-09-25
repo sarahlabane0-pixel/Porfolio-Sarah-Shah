@@ -42,7 +42,7 @@ export const experiences: Experience[] = [
     ],
     tools: ["Sprout Social", "Excel", "Meltwater"],
     tags: ["Communication corporate", "LinkedIn Groupe", "Prises de parole"],
-    media: [media.adeccoOffice, media.adeccoKickoff, media.adeccoGroup],
+    media: [media.adeccoOffice, media.adeccoKickoff, media.adeccoGroup, media.adeccoPresentation],
     stat: { value: "5", label: "dirigeants, experts et collaborateurs accompagnés dans leurs prises de parole" },
     photos: [
       { src: "/assets/adecco/kickoff-01.jpg", alt: "Kick-off The Adecco Group" },
@@ -86,7 +86,7 @@ export const experiences: Experience[] = [
       "Communication événementielle avant, pendant et après les événements, et reportings post-événement.",
     ],
     tags: ["Événementiel institutionnel", "Logistique", "Jour J"],
-    media: [media.choiseulNetworking, media.choiseulConference],
+    media: [media.choiseulNetworking, media.choiseulConference, media.choiseulLeadership],
     photos: [
       { src: "/assets/choiseul/conference-2024-06-03.jpg", alt: "Conférence Institut Choiseul, 3 juin 2024" },
       { src: "/assets/choiseul/networking-01.jpg", alt: "Temps d'échange entre invités, Institut Choiseul" },
@@ -122,7 +122,7 @@ export const experiences: Experience[] = [
       "Une première immersion, pas encore dans la communication, mais déjà dans la gestion de flux, la relation aux visiteurs et un univers entièrement pensé comme une expérience. Ce qui s'y apprend sur le rythme d'une foule reste, depuis, une référence silencieuse.",
     missions: [],
     tags: ["Relation visiteurs", "Gestion de flux", "Expérience"],
-    media: [media.disneyCastle, media.disneyParade, media.disneyTheater],
+    media: [media.disneyCastle, media.disneyParade, media.disneyTheater, media.disneyAvengers],
     photos: [
       { src: "/assets/disney/pier-01.jpg", alt: "Disneyland Paris au crépuscule" },
       { src: "/assets/disney/parade-01.jpg", alt: "Spectacle Disneyland Paris" },

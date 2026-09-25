@@ -21,6 +21,7 @@ export const media = {
   adeccoKickoff: m("/assets/adecco/kickoff-01.jpg", 615, 346, "Kick-off The Adecco Group"),
   adeccoStage: m("/assets/adecco/kickoff-02.jpg", 410, 231, "The Adecco Group, prise de parole sur scène"),
   adeccoGroup: m("/assets/adecco/kickoff-group-01.jpg", 615, 297, "Photo de groupe Akkodis, kick-off 2026 « The agility advantage »"),
+  adeccoPresentation: m("/assets/adecco/presentation-01.webp", 672, 900, "Présentation The Adecco Group : « Révéler le potentiel humain pour façonner l'avenir »"),
 
   // Ketil Media
   ketilInterview: m("/assets/ketil/studio-interview-01.jpg", 1286, 1714, "Interview filmée dans le studio de Ketil Media"),
@@ -34,11 +35,13 @@ export const media = {
   // Institut Choiseul
   choiseulConference: m("/assets/choiseul/conference-2024-06-03.jpg", 386, 389, "Conférence Institut Choiseul, 3 juin 2024"),
   choiseulNetworking: m("/assets/choiseul/networking-01.jpg", 733, 457, "Temps d'échange entre invités, Institut Choiseul"),
+  choiseulLeadership: m("/assets/choiseul/leadership-engage-01.webp", 690, 916, "Table ronde Initiative Leadership Engagé, Institut Choiseul"),
 
   // Disneyland Paris
   disneyCastle: m("/assets/disney/castle-sunset-01.jpg", 736, 1308, "Le château de Disneyland Paris au coucher du soleil"),
   disneyParade: m("/assets/disney/parade-01.jpg", 600, 401, "Spectacle, Disneyland Paris"),
   disneyTheater: m("/assets/disney/disney-theater-01.webp", 2000, 1334, "Disney Theater, façade illuminée"),
+  disneyAvengers: m("/assets/disney/avengers-campus-01.webp", 2000, 1208, "Cérémonie à l'Avengers Campus, Disneyland Paris"),
 
   // Identity — the final portrait Sarah supplied (STATE A of the hero).
   portrait: m("/assets/hero/sarah-portrait.webp", 1122, 1402, "Portrait de Sarah Shah"),
