@@ -193,7 +193,7 @@ export const observation = {
       materials: "Moquette verte · béton banché · miroirs",
       markers: [
         { x: 11, y: 31, label: "Béton banché, en courbe", side: "right" },
-        { x: 72, y: 27, label: "Miroirs", side: "left" },
+        { x: 82, y: 22, label: "Miroirs", side: "left" },
         { x: 46, y: 70, label: "Moquette verte", side: "right" },
       ],
     },

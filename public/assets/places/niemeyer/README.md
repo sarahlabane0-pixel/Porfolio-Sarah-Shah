@@ -6,6 +6,10 @@ exactly once:
 
 - the file whose name contains `coupole` is where the 3D journey arrives
   (the dome opens onto it, "I COLLECT SPACES." over it);
-- every other file hangs in the "Le lieu, en vrai." exhibition, with a cartel.
+- every other file enters the observation room "Le lieu, en vrai.". Its
+  theme, survey marks and cartel come from `observation.pieces` in
+  content/allaccess.ts, keyed by the name after the number
+  (niemeyer-03-fauteuil → "fauteuil"). A photo without an entry still
+  appears, with its caption only.
 
-Captions come from the name: niemeyer-01-foyer → "Le foyer".
+Captions come from the name (see lib/niemeyerPhotos.ts).

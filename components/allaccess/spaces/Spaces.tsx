@@ -6,7 +6,8 @@ import { curiosity, niemeyer, spaces } from "@/content/allaccess";
 import { media } from "@/content/media";
 import type { NiemeyerPhoto } from "@/lib/niemeyerPhotos";
 import { webglAvailable } from "../hero/PortraitGL";
-import { Photo, sharpWidth } from "../Photo";
+import { Photo } from "../Photo";
+import { Observation } from "./Observation";
 import s from "./Spaces.module.css";
 
 /**
@@ -149,22 +150,9 @@ export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
             .fromTo(stage.querySelector(`.${s.stageFade}`), { autoAlpha: 0 }, { autoAlpha: 1, ease: "none" }, 0)
         : null;
 
-    // Exhibition: each frame opens like a wall being lit, the photograph
-    // drifting slowly inside it as you walk past.
-    const hangs = Array.from(el.querySelectorAll<HTMLElement>(`.${s.exhibitFrame}`)).flatMap((f) => {
-      const img = f.querySelector("img");
-      return [
-        gsap.fromTo(f, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", ease: "power2.out", scrollTrigger: { trigger: f, start: "top 90%", end: "top 35%", scrub: 1 } }),
-        gsap.fromTo(img, { yPercent: -6, scale: 1.12 }, { yPercent: 6, scale: 1.04, ease: "none", scrollTrigger: { trigger: f, start: "top bottom", end: "bottom top", scrub: true } }),
-      ];
-    });
     return () => {
       handover?.scrollTrigger?.kill();
       handover?.kill();
-      hangs.forEach((t) => {
-        t.scrollTrigger?.kill();
-        t.kill();
-      });
       tweens.forEach((t) => {
         t.scrollTrigger?.kill();
         t.kill();
@@ -212,40 +200,22 @@ export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
       </div>
 
       <div className={s.calm} data-theme-zone="dark">
-        {(exhibits.length > 0 || missing) && (
-        <div className={s.photos}>
-          <header className={s.photosHead} data-reveal>
-            <p className={`${s.kickerDark} ${s.handover} aa-micro`}>
-              <span>04 — {spaces.steps[3]}</span>
-              <span>{spaces.galleryKicker}</span>
-            </p>
-            <h3 className={s.photosTitle}>
-              {spaces.galleryTitle[0]} <em>{spaces.galleryTitle[1]}</em>
-            </h3>
-          </header>
-          {exhibits.length > 0 && (
-            <ol className={s.exhibits} aria-label="Photographies de l'Espace Niemeyer">
-              {exhibits.map((m, i) => {
-                const cap = sharpWidth(m);
-                const note = spaces.notes[m.slug];
-                return (
-                  <li key={m.src} className={s.exhibit} data-side={i % 2 ? "right" : "left"}>
-                    <figure className={s.exhibitFrame} style={{ "--ar": `${m.w} / ${m.h}`, "--cap": `${cap}px` } as CSSProperties}>
-                      <Photo media={m} sizes={`(min-width: 1024px) min(46vw, ${cap}px), 88vw`} />
-                    </figure>
-                    <aside className={s.cartel} data-reveal>
-                      <span className="aa-micro">N° {String(i + 1).padStart(2, "0")}</span>
-                      <p className={s.cartelTitle}>{m.caption ?? spaces.place}</p>
-                      <p className="aa-micro">{spaces.galleryKicker}</p>
-                      <p className="aa-micro">{spaces.architect}</p>
-                      {note && <p className={s.cartelNote}>« {note} »</p>}
-                    </aside>
-                  </li>
-                );
-              })}
-            </ol>
-          )}
-          {missing && (
+        {exhibits.length > 0 && (
+          <div className={s.photos}>
+            <Observation photos={exhibits} />
+          </div>
+        )}
+        {missing && (
+          <div className={s.photos}>
+            <header className={s.photosHead} data-reveal>
+              <p className={`${s.kickerDark} ${s.handover} aa-micro`}>
+                <span>04 — {spaces.steps[3]}</span>
+                <span>{spaces.galleryKicker}</span>
+              </p>
+              <h3 className={s.photosTitle}>
+                {spaces.galleryTitle[0]} <em>{spaces.galleryTitle[1]}</em>
+              </h3>
+            </header>
             <ul className={s.track} aria-label="Photographies de l'Espace Niemeyer à fournir">
               {spaces.missing.map((label, i) => (
                 <li key={label} className={`${s.shot} ${s.shotMissing}`} style={{ "--ar": i === 1 ? "4 / 5" : "3 / 2" } as CSSProperties}>
@@ -254,8 +224,7 @@ export function Spaces({ photos }: { photos: NiemeyerPhoto[] }) {
                 </li>
               ))}
             </ul>
-          )}
-        </div>
+          </div>
         )}
 
         <div className={s.text}>

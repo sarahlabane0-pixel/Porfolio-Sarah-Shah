@@ -1,0 +1,327 @@
+/* "Le lieu, en vrai." — the observation room.
+   Default (phones, tablets, reduced motion): pieces in flow, one under the
+   other, marks visible. Room (≥1024px, motion allowed): one pinned green
+   room, pieces coming forward in depth — see the media query at the end. */
+
+.room {
+  position: relative;
+  padding: 0 var(--aa-gutter) clamp(2rem, 6vw, 5rem);
+  color: var(--aa-ivory);
+}
+
+/* The floor: the plaza grid of the 3D moment, now under your feet. */
+.floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 34%;
+  pointer-events: none;
+  stroke: color-mix(in srgb, var(--aa-sage) 16%, transparent);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 55%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 55%);
+}
+
+.floor line {
+  vector-effect: non-scaling-stroke;
+}
+
+.head {
+  position: relative;
+  z-index: 3;
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.6rem;
+  margin: 0 0 1.2rem;
+  color: color-mix(in srgb, var(--aa-sage) 85%, transparent);
+}
+
+.kicker span:first-child {
+  color: var(--aa-ivory);
+}
+
+.title {
+  margin: 0;
+  font-weight: 500;
+  font-size: clamp(2.6rem, 5.4vw, 5.8rem);
+  line-height: 0.9;
+  letter-spacing: var(--aa-track-tight);
+}
+
+.title em {
+  font-family: var(--aa-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--aa-sage);
+}
+
+.lead {
+  margin: 1.1rem 0 0;
+  font-family: var(--aa-serif);
+  font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+  color: color-mix(in srgb, var(--aa-ivory) 75%, transparent);
+}
+
+.pieces {
+  position: relative;
+  display: grid;
+  gap: clamp(4rem, 12vw, 7rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.piece {
+  position: relative;
+  display: grid;
+  gap: 1.4rem;
+}
+
+/* The observation theme — large, outlined, behind the photograph. */
+.theme {
+  margin: 0 0 -0.35em;
+  font-family: var(--aa-serif);
+  font-style: italic;
+  font-size: clamp(3.4rem, 16vw, 7rem);
+  line-height: 0.85;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--aa-sage) 55%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+
+.frame {
+  position: relative;
+  width: min(100%, 30rem, var(--cap));
+  aspect-ratio: var(--ar);
+  margin: 0;
+  box-shadow: 0 3rem 6rem -2.5rem rgb(0 0 0 / 0.6);
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Survey marks: what the eye notices, named. */
+.markers {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+
+.marker {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  translate: -6px -6px;
+}
+
+.marker[data-side="left"] {
+  flex-direction: row-reverse;
+  translate: calc(-100% + 6px) -6px;
+}
+
+.dot {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--aa-ivory);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--aa-ivory) 0 2px, transparent 2.5px);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--aa-green-ink) 35%, transparent);
+}
+
+.line {
+  flex: none;
+  width: clamp(1.4rem, 3vw, 2.6rem);
+  height: 1px;
+  background: var(--aa-ivory);
+  transform-origin: 0 50%;
+}
+
+.marker[data-side="left"] .line {
+  transform-origin: 100% 50%;
+}
+
+.label {
+  padding: 0.35rem 0.55rem;
+  white-space: nowrap;
+  font-size: 0.58rem;
+  color: var(--aa-ivory);
+  background: color-mix(in srgb, var(--aa-green-ink) 72%, transparent);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+/* The museum cartel. */
+.cartel {
+  display: grid;
+  gap: 0.45rem;
+  max-width: 20rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid color-mix(in srgb, var(--aa-sage) 45%, transparent);
+  color: color-mix(in srgb, var(--aa-ivory) 72%, transparent);
+}
+
+.cartel p {
+  margin: 0;
+}
+
+.cartelNo {
+  color: var(--aa-sage);
+}
+
+.cartelTitle {
+  margin: 0.2rem 0 0.35rem !important;
+  font-family: var(--aa-serif);
+  font-style: italic;
+  font-size: clamp(1.8rem, 2.4vw, 2.5rem);
+  line-height: 1;
+  color: var(--aa-ivory);
+}
+
+.cartelMeta {
+  opacity: 0.7;
+}
+
+.cartelQuote {
+  margin-top: 0.8rem !important;
+  font-family: var(--aa-serif);
+  font-size: 1.1rem;
+  line-height: 1.3;
+  color: var(--aa-sage);
+}
+
+.counter {
+  display: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   The room
+   ───────────────────────────────────────────────────────────── */
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .room {
+    height: 100svh;
+    min-height: 640px;
+    padding: 0;
+    overflow: hidden;
+    background:
+      radial-gradient(70% 60% at 50% 42%, color-mix(in srgb, var(--aa-green-soft) 55%, transparent), transparent 75%),
+      radial-gradient(120% 90% at 50% 100%, var(--aa-green) 20%, var(--aa-green-ink) 100%);
+  }
+
+  .head {
+    position: absolute;
+    left: var(--aa-gutter);
+    top: calc(5.5rem + var(--aa-safe-top));
+    margin: 0;
+    max-width: 20rem;
+  }
+
+  .lead {
+    font-size: 1.05rem;
+  }
+
+  .title {
+    font-size: clamp(2.2rem, 3.4vw, 3.6rem);
+  }
+
+  .pieces {
+    position: absolute;
+    inset: 0;
+    display: block;
+    perspective: 1300px;
+    perspective-origin: 50% 46%;
+  }
+
+  .piece {
+    position: absolute;
+    inset: 0;
+    display: block;
+    transform-style: preserve-3d;
+    pointer-events: none;
+  }
+
+  /* The room's title for this piece, set above its cartel. */
+  .theme {
+    position: absolute;
+    bottom: calc(11svh + 13.5rem);
+    margin: 0;
+    font-size: clamp(4.5rem, 7.4vw, 8.4rem);
+    white-space: nowrap;
+    -webkit-text-stroke-color: color-mix(in srgb, var(--aa-sage) 60%, transparent);
+  }
+
+  .piece {
+    --half: min(25.5svh, 16rem);
+  }
+
+  .frame {
+    position: absolute;
+    left: var(--fx);
+    top: 57%;
+    width: auto;
+    height: min(68svh, 42.6rem);
+    max-width: var(--cap);
+    will-change: transform, opacity;
+  }
+
+  .cartel {
+    position: absolute;
+    bottom: 11svh;
+    width: 19rem;
+    z-index: 2;
+  }
+
+  .piece[data-cartel="right"] .cartel,
+  .piece[data-cartel="right"] .theme {
+    left: calc(var(--fx) + var(--half) + 3.5vw);
+  }
+
+  .piece[data-cartel="left"] .cartel,
+  .piece[data-cartel="left"] .theme {
+    right: calc(100% - var(--fx) + var(--half) + 3.5vw);
+  }
+
+  .piece[data-cartel="left"] .theme {
+    text-align: right;
+  }
+
+  .counter {
+    display: block;
+    position: absolute;
+    right: var(--aa-gutter);
+    bottom: calc(2rem + var(--aa-safe-bottom));
+    margin: 0;
+    color: var(--aa-sage);
+  }
+
+  .counter span {
+    color: var(--aa-ivory);
+  }
+}
+
+@media (max-width: 1023px) {
+  .frame {
+    width: min(100%, 34rem, var(--cap));
+  }
+
+  .label {
+    font-size: 0.52rem;
+  }
+}

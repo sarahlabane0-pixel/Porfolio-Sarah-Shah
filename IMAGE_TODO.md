@@ -83,11 +83,16 @@ in `public/assets/places/niemeyer/`:
 
 | File | Shows | Used for |
 |---|---|---|
-| `niemeyer-01-foyer.webp` | the foyer: green carpet, armchairs, curved board-formed concrete | "Le lieu, en vrai." — hung alone, with its cartel |
+| `niemeyer-01-foyer.webp` | the foyer: green carpet, armchairs, curved board-formed concrete | observation room, N° 01 — Circulation |
 | `niemeyer-02-coupole.webp` | the chamber under the dome, ceiling of blades | the arrival: the 3D dome opens onto it, "I COLLECT SPACES." over it |
+| `niemeyer-03-fauteuil.webp` | armchair close-up: leather, bent steel, marble, concrete | observation room, N° 02 — Matière |
+| `niemeyer-04-salon.webp` | lounge: indirect light, mirrors, raw concrete | observation room, N° 03 — Lumière |
 
 **One role per photograph, never repeated.** The photo whose name contains
-`coupole` is the 3D arrival; every other photo hangs once in the exhibition.
+`coupole` is the 3D arrival; every other photo appears once in the
+observation room ("Le lieu, en vrai."), with its theme, survey marks and
+cartel defined in `content/allaccess.ts` (`observation.pieces`, keyed by the
+file-name slug).
 The 3D picture plane is a plain elevation sheet (no photo).
 
 Any further file dropped in that folder is picked up at build time (sorted by
