@@ -49,6 +49,7 @@ const SLOTS: Record<string, Slot[]> = {
   disney: [
     { x: 58, y: 7, w: 18, z: 0 },
     { x: 73, y: 57, w: 21, z: 170 },
+    { x: 80, y: 20, w: 16, z: -240 },
   ],
 };
 

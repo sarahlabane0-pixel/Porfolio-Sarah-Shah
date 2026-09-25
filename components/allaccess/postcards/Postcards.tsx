@@ -29,13 +29,13 @@ type Card = {
 const CARDS: Card[] = [
   { place: "Houston", country: "États-Unis", media: media.houston, line: "Imagination et réalité se côtoient.", x: 58, y: 4, w: 15, r: 4, speed: 0.9 },
   { place: "Venise", country: "Italie", media: media.veniceNight, x: 78, y: 9, w: 11, r: -6, speed: 0.6 },
-  { place: "Marrakech", country: "Maroc", media: null, line: "Jemaa el-Fna, c'est le mouvement avant tout.", x: 37, y: 38, w: 15, r: -4, speed: 1.1 },
+  { place: "Marrakech", country: "Maroc", media: media.marrakech, line: "Jemaa el-Fna, c'est le mouvement avant tout.", x: 37, y: 38, w: 15, r: -4, speed: 1.1 },
   { place: "Palma", country: "Espagne", media: media.palmaCathedral, x: 62, y: 40, w: 9, r: 7, speed: 0.7 },
   { place: "Algérie", country: "Algérie", media: media.algeriaCoast, line: "Une lumière qui change la perspective d'une rue à l'autre.", x: 84, y: 45, w: 11, r: -4, speed: 1.0 },
-  { place: "New York", country: "États-Unis", media: null, line: "Brooklyn, un musée à ciel ouvert.", x: 5, y: 56, w: 14, r: 5, speed: 0.6 },
+  { place: "New York", country: "États-Unis", media: media.brooklyn, line: "Brooklyn, un musée à ciel ouvert.", x: 5, y: 56, w: 14, r: 5, speed: 0.6 },
   { place: "Venise", country: "Italie", media: media.veniceRialto, x: 21, y: 71, w: 12, r: -7, speed: 1.2 },
   { place: "Palma", country: "Espagne", media: media.palmaCove, x: 49, y: 71, w: 12, r: 3, speed: 0.8 },
-  { place: "Algérie", country: "Algérie", media: media.algeriaBoat, x: 71, y: 76, w: 10, r: -3, speed: 1.2 },
+  { place: "Algérie", country: "Algérie", media: media.algeriaDesert, x: 71, y: 76, w: 10, r: -3, speed: 1.2 },
 ];
 
 export function Postcards() {
