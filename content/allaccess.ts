@@ -172,3 +172,51 @@ export const programme = {
   title: "Ce soir, au programme",
   targets: { projets: "#work", voyages: "#postcards", lieux: "#spaces", mouvement: "#movement" } as Record<string, string>,
 };
+
+// Observation room ("Le lieu, en vrai.") — how Sarah looks at a space.
+// Themes and quotes are her own words (content/places.ts, Niemeyer
+// paragraphs). Materials and markers only name what is visible in each photo.
+// Marker x/y are % of the photo; `side` is where the label sits.
+export type ObservationMarker = { x: number; y: number; label: string; side: "left" | "right" };
+export type ObservationPiece = {
+  theme: string;
+  quote: string;
+  materials: string;
+  markers: ObservationMarker[];
+};
+export const observation = {
+  lead: "Observer comment un espace est conçu.",
+  pieces: {
+    foyer: {
+      theme: "Circulation",
+      quote: "comment on y circule",
+      materials: "Moquette verte · béton banché · miroirs",
+      markers: [
+        { x: 11, y: 31, label: "Béton banché, en courbe", side: "right" },
+        { x: 72, y: 27, label: "Miroirs", side: "left" },
+        { x: 46, y: 70, label: "Moquette verte", side: "right" },
+      ],
+    },
+    fauteuil: {
+      theme: "Matière",
+      quote: "le contraste entre le béton, le mobilier, les volumes et les couleurs",
+      materials: "Cuir · acier cintré · marbre · béton",
+      markers: [
+        { x: 47, y: 61, label: "Cuir", side: "left" },
+        { x: 89, y: 77, label: "Acier cintré", side: "left" },
+        { x: 20, y: 55, label: "Marbre", side: "right" },
+        { x: 42, y: 29, label: "Béton banché", side: "right" },
+      ],
+    },
+    salon: {
+      theme: "Lumière",
+      quote: "comment la lumière y est utilisée",
+      materials: "Lumière indirecte · miroirs · béton brut",
+      markers: [
+        { x: 44, y: 13, label: "Lumière indirecte", side: "right" },
+        { x: 30, y: 42, label: "Ligne lumineuse au sol", side: "right" },
+        { x: 88, y: 31, label: "Béton brut", side: "left" },
+      ],
+    },
+  } as Record<string, ObservationPiece>,
+};

@@ -10,6 +10,8 @@ const DIR = path.join(process.cwd(), "public/assets/places/niemeyer");
 const CAPTIONS: Record<string, string> = {
   foyer: "Le foyer",
   coupole: "Sous la coupole",
+  fauteuil: "Au plus près",
+  salon: "Sous la lumière",
 };
 
 export type NiemeyerPhoto = Media & { slug: string; caption?: string };
