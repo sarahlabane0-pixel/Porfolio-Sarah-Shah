@@ -383,7 +383,8 @@
    Stage layout
    ───────────────────────────────────────────────────────────── */
 
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+/* Same query as STAGE_QUERY in Work.tsx. */
+@media (min-width: 768px) and (min-height: 640px) and (orientation: landscape) and (prefers-reduced-motion: no-preference) {
   .stage {
     height: 100svh;
     min-height: 640px;
@@ -573,6 +574,78 @@
 
   .railItem[data-state="done"] .railBar::after {
     transform: scaleX(1);
+  }
+}
+
+/* The same stage in a smaller landscape window (small laptop, browser
+   window, tablet held sideways): type is sized on both axes so the text
+   column keeps to its side and clears the running order. */
+@media (min-width: 768px) and (max-width: 1023.98px) and (min-height: 640px) and (orientation: landscape) and (prefers-reduced-motion: no-preference) {
+  .col {
+    top: 12svh;
+    width: 42vw;
+  }
+
+  .title {
+    font-size: clamp(2.8rem, min(7vw, 9.5svh), 4.4rem);
+  }
+
+  .index {
+    margin-bottom: 1rem;
+  }
+
+  .role {
+    margin: 1rem 0 0.7rem;
+    font-size: 0.95rem;
+  }
+
+  .tags li {
+    padding: 0.35rem 0.6rem;
+  }
+
+  .body {
+    margin-top: 1.2rem;
+  }
+
+  .lead {
+    max-width: 42vw;
+    font-size: clamp(1rem, min(1.7vw, 2.5svh), 1.3rem);
+  }
+
+  /* Missions spread across the stage in three columns (the photos have
+     already stepped back behind them), so a long list still fits. */
+  .details,
+  .scene[data-long] .details {
+    width: 88vw;
+  }
+
+  .missions,
+  .scene[data-long] .missions {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: none;
+    column-gap: 1.6rem;
+  }
+
+  .missions li {
+    grid-template-columns: 1.6rem 1fr;
+    font-size: clamp(0.72rem, 1.85svh, 0.8rem);
+    line-height: 1.35;
+  }
+
+  .stat {
+    margin-bottom: 0.8rem;
+  }
+
+  .stat strong {
+    font-size: clamp(2.2rem, 6svh, 3.4rem);
+  }
+
+  .stat span {
+    font-size: 0.85rem;
+  }
+
+  .chips {
+    margin-top: 0.9rem;
   }
 }
 

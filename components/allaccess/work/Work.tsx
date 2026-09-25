@@ -8,9 +8,16 @@ import { work } from "@/content/allaccess";
 import { Photo, sharpWidth } from "../Photo";
 import s from "./Work.module.css";
 
-// The stage layout only exists on wide screens with motion allowed; the same
-// query drives the CSS, so markup never flashes between layouts.
-const STAGE_QUERY = "(min-width: 1024px) and (prefers-reduced-motion: no-preference)";
+// The stage layout exists on any landscape screen wide and tall enough for it
+// (laptops, desktop windows, tablets held sideways) with motion allowed; the
+// same query drives the CSS, so markup never flashes between layouts.
+const STAGE_QUERY = "(min-width: 768px) and (min-height: 640px) and (orientation: landscape) and (prefers-reduced-motion: no-preference)";
+// Its exact complement, motion allowed: phones, portrait tablets, short windows.
+const FLOW_QUERY = [
+  "(max-width: 767.98px) and (prefers-reduced-motion: no-preference)",
+  "(max-height: 639.98px) and (prefers-reduced-motion: no-preference)",
+  "(orientation: portrait) and (prefers-reduced-motion: no-preference)",
+].join(", ");
 
 type Palette = { bg: string; fg: string; theme: "dark" | "light"; glow: string };
 
@@ -106,6 +113,9 @@ export function Work() {
     mm.add(STAGE_QUERY, () => {
       const q = (sc: HTMLElement, sel: string) => Array.from(sc.querySelectorAll<HTMLElement>(sel));
       const zOf = (_: number, t: HTMLElement) => Number(t.dataset.z);
+      // How far the photos fade behind the missions: further in a smaller
+      // window, where the missions spread across the whole stage.
+      const recede = () => (window.innerWidth < 1024 ? 0.12 : 0.42);
       const dirOf = (t: HTMLElement) => (Number(t.dataset.x) >= 66 ? 1 : -1);
 
       // Everything but the first scene starts hidden, deep in the field.
@@ -171,7 +181,7 @@ export function Work() {
           .to(lead, { autoAlpha: 0, y: -24, duration: 0.45 }, t)
           .fromTo(details, { autoAlpha: 0, y: () => 40 - lift() }, { autoAlpha: 1, y: () => -lift(), duration: 0.8, ease: "power2.out" }, t + 0.3)
           .fromTo(items, { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.07, ease: "power2.out" }, t + 0.45)
-          .to(slots, { z: (k, n) => zOf(k, n) - 280, x: "3vw", autoAlpha: 0.42, duration: 1, ease: "power2.inOut" }, t);
+          .to(slots, { z: (k, n) => zOf(k, n) - 280, x: "3vw", autoAlpha: recede, duration: 1, ease: "power2.inOut" }, t);
         t += 1 + 1.5; // …and holds long enough to read
         }
 
@@ -261,7 +271,7 @@ export function Work() {
     });
 
     // ── Narrow screens / tablets: scenes in flow, each revealed on entry ─
-    mm.add("(max-width: 1023.98px) and (prefers-reduced-motion: no-preference)", () => {
+    mm.add(FLOW_QUERY, () => {
       const triggers = scenes.map((sc) => {
         const pal = PALETTE[sc.dataset.id!];
         const lines = sc.querySelectorAll(`.${s.titleLine} > span`);
@@ -437,7 +447,7 @@ function Scene({ x, i, total }: { x: Experience; i: number; total: number }) {
               data-x={slot.x}
               style={{ "--x": `${slot.x}%`, "--y": `${slot.y}%`, "--w": `min(${slot.w}vw, ${cap}px)`, "--cap": `${cap}px` } as CSSProperties}
             >
-              <Photo media={m} sizes={`(min-width: 1024px) min(${slot.w}vw, ${cap}px), min(72vw, ${cap}px)`} />
+              <Photo media={m} sizes={`(min-width: 768px) and (orientation: landscape) min(${slot.w}vw, ${cap}px), min(72vw, ${cap}px)`} />
             </figure>
           );
         })}
